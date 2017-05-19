@@ -1,9 +1,9 @@
 module.exports = {
   frontendAddress: 'http://localhost:8082',
-  apiGatewayUri: '',
+  apiGatewayUri: 'http://192.168.0.19:3000',
   fixedLayout: false,
   hideLogoOnMobile: false,
-  clientId: 'fae5bde3-ea4b-417a-aeb1-099825bd91cc',
-  clientSecret: 'ad472ecd-0646-403a-bd32-5362e734d2b6',
-  redirectUri: 'http://localhost:8082/token'
+  clientId: '08163127-2a6b-43a3-9722-3ae551fdb0cc',
+  clientSecret: '88862de0-69de-46c6-831b-c8229dd64dae',
+  redirectUri: 'http://192.168.0.11:8082/token'
 }

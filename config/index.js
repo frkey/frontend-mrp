@@ -24,17 +24,17 @@ module.exports = {
     proxyTable: {
       '/products': {
         pathRewrite: {'^/products' : ''},
-        target: 'http://localhost:3000/products',
+        target: 'http://192.168.0.19:3000/products',
         changeOrigin: true
       },
       '/manager/**': {
         pathRewrite: {'^/manager' : ''},
-        target: 'http://localhost:3000/manager',
+        target: 'http://192.168.0.19:3000/manager',
         changeOrigin: true
       },
       '/oauth/**': {
         pathRewrite: {'^/oauth' : ''},
-        target: 'http://localhost:3000/oauth',
+        target: 'http://192.168.0.19:3000/oauth',
         changeOrigin: true
       }
     },
