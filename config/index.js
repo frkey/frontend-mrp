@@ -22,14 +22,9 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/speds': {
-        pathRewrite: {'^/speds' : ''},
-        target: 'http://localhost:3000/speds',
-        changeOrigin: true
-      },
-      '/logs/**': {
-        pathRewrite: {'^/logs' : ''},
-        target: 'http://localhost:3000/logs',
+      '/products': {
+        pathRewrite: {'^/products' : ''},
+        target: 'http://localhost:3000/products',
         changeOrigin: true
       },
       '/manager/**': {
