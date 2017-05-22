@@ -10,7 +10,7 @@ function successMessage (_self, message) {
 
 function errorMessage (_self, message) {
   _self.$toast(message, {
-    className: ['et-info', 'alert'],
+    className: ['et-alert', 'alert'],
     horizontalPosition: 'center',
     duration: 3000,
     mode: 'queue',
@@ -18,7 +18,19 @@ function errorMessage (_self, message) {
   })
 }
 
+function verifyFields (_self, successCallback, errorCallback) {
+  if (_self.errors.all()) {
+    if (_self.errors.errors.length > 0) {
+      errorCallback(_self.errors.errors[0].msg)
+    }
+    successCallback()
+  } else {
+    successCallback()
+  }
+}
+
 export default {
   successMessage: successMessage,
-  errorMessage: errorMessage
+  errorMessage: errorMessage,
+  verifyFields: verifyFields
 }

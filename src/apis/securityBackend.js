@@ -27,7 +27,6 @@ function loadTokens (options, successCallback, errorCallback) {
 }
 
 function accessToken (body, headers, successCallback, errorCallback) {
-  console.log(JSON.stringify(body))
   axios.post(oauthUrl, body, headers)
     .then(successCallback)
     .catch(errorCallback)

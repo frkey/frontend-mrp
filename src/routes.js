@@ -8,25 +8,36 @@ import Logout from './components/Logout.vue'
 import Credentials from './components/Credentials.vue'
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
+import ProductView from './components/views/ProductView.vue'
+import StructureView from './components/views/StructureView.vue'
 
 // Routes
 const routes = [
   {
     path: '/',
     component: DashView,
-    children: [
-      {
-        path: 'dashboard',
-        alias: '',
-        component: DashboardView,
-        name: 'Dashboard',
-        meta: {description: 'Overview of environment'}
-      }, {
-        path: '/credentials',
-        component: Credentials,
-        name: '',
-        meta: {description: ''}
-      }]
+    children: [{
+      path: 'dashboard',
+      alias: '',
+      component: DashboardView,
+      name: 'Dashboard',
+      meta: {description: 'System Overview'}
+    }, {
+      path: '/credentials',
+      component: Credentials,
+      name: '',
+      meta: {description: ''}
+    }, {
+      path: '/products',
+      component: ProductView,
+      name: 'products',
+      meta: {description: 'management'}
+    }, {
+      path: '/products/structure',
+      component: StructureView,
+      name: '',
+      meta: {description: ''}
+    }]
   }, {
     path: '/unauthorized',
     component: UnauthorizedView

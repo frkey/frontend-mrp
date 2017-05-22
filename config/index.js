@@ -22,19 +22,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/products': {
-        pathRewrite: {'^/products' : ''},
-        target: 'http://192.168.0.19:3000/products',
-        changeOrigin: true
-      },
       '/manager/**': {
         pathRewrite: {'^/manager' : ''},
-        target: 'http://192.168.0.19:3000/manager',
+        target: 'http://localhost:3000/manager',
         changeOrigin: true
       },
       '/oauth/**': {
         pathRewrite: {'^/oauth' : ''},
-        target: 'http://192.168.0.19:3000/oauth',
+        target: 'http://localhost:3000/oauth',
         changeOrigin: true
       }
     },

@@ -98,8 +98,7 @@ function getRefreshToken (refreshToken) {
     authService.setRefreshToken(res.data.refresh_token)
     window.location.reload()
     return
-  })
-  .catch(error => {
+  }, (error) => {
     if (error) {
       authService.setAccessToken('')
       authService.setRefreshToken('')
