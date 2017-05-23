@@ -35,6 +35,7 @@
 import Datasource from 'vue-datasource'
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
+import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
 
 export default {
@@ -83,6 +84,9 @@ export default {
     reload () {
       this.loadProducts(null, this.pagination)
     },
+    selectProduct (product) {
+      eventHelper.emit('productData', product)
+    },
     removeProduct (product) {
       var _self = this
       productBackend.removeProduct(product, (response) => {
@@ -127,12 +131,35 @@ export default {
   mounted () {
     var _self = this
     this.actions.push({
+      text: 'Select product', // Button label
+      icon: 'fa fa-check', // Button icon
+      class: 'btn-success pull-right', // Button class (background color)
+      event (e, row) { // Event handler callback. Gets event instace and selected row
+        _self.selectProduct(row.row)
+      }
+    })
+    this.actions.push({
+      text: 'Reload products', // Button label
+      icon: 'fa fa-refresh', // Button icon
+      class: 'btn-primary pull-right', // Button class (background color)
+      event (e, row) { // Event handler callback. Gets event instace and selected row
+        _self.reload()
+      }
+    })
+    this.actions.push({
       text: 'Remove product', // Button label
       icon: 'fa fa-times', // Button icon
       class: 'btn-danger pull-right', // Button class (background color)
       event (e, row) { // Event handler callback. Gets event instace and selected row
-        _self.removeProduct(row.row)
+        var r = window.confirm('Are you sure to delete Product?')
+        if (r === true) {
+          _self.removeProduct(row.row)
+        }
       }
+    })
+    eventHelper.init()
+    eventHelper.on('reloadProductList', () => {
+      _self.reload()
     })
     rolesService.loadUserRoles(this)
     this.loadProducts(null, this.pagination)
