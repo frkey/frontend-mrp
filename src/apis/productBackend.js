@@ -36,10 +36,26 @@ function removeProduct (product, successCallback, errorCallback) {
         .catch(errorCallback)
 }
 
+function insertChildreen (parentId, childreenId, successCallback, errorCallback) {
+  var url = productUrl + '/' + parentId + '/children/' + childreenId
+  axios.put(url, {})
+    .then(successCallback)
+    .catch(errorCallback)
+}
+
+function removeChildreen (parentId, childreenId, successCallback, errorCallback) {
+  var url = productUrl + '/' + parentId + '/children/' + childreenId
+  axios.delete(url)
+    .then(successCallback)
+    .catch(errorCallback)
+}
+
 export default {
   insertProduct,
   updateProduct,
   removeProduct,
   loadProduct,
-  loadProducts
+  loadProducts,
+  insertChildreen,
+  removeChildreen
 }

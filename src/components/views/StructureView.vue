@@ -1,100 +1,120 @@
 <template>
-  <section class="content">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="panel panel-info">
-          <div class="panel-heading">Tokens</div>
-          <div class="panel-body">
-            <datasource
-              language="en"
-              :pagination="pagination"
-              :table-data="response"
-              :columns="columns"
-              v-on:change="changePage"
-              v-on:searching="onSearch"
-              :actions="actions"></datasource>
+  <section class='content'>
+    <sweet-modal ref="productManagement" icon="error" hide-close-button blocking overlay-theme="dark" modal-theme="dark">
+    	Selecione a quantidade do produto A em B
+
+      <button class="col-sm-2 btn btn-success btn-md pull-right" v-on:click="saveProductManagement">Salvar</button>
+    	<button class="col-sm-2 btn btn-danger btn-md pull-right" v-on:click="closeProductManagement">Fechar</button>
+    </sweet-modal>
+
+    <div class='row'>
+      <div class='col-sm-12'>
+        <div class='panel panel-info'>
+          <div class='panel-heading'>Product Structure</div>
+          <div class='panel-body'>
+              <div v-show="!progress.finished">
+                <radial-progress-bar :diameter="200"
+                         :completed-steps="progress.completedSteps"
+                         :total-steps="progress.totalSteps">
+                   <p>Loading</p>
+                </radial-progress-bar>
+              </div>
+              <div v-show="progress.finished">
+                <tree ref="tree" :treeData='treeData' :nodeChanged='nodeChanged'></tree>
+              </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
-
 <script>
-</script>
-<script>
-import Datasource from 'vue-datasource'
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
+import productBackend from '../../apis/productBackend'
+import tree from '../data/tree'
+import { SweetModal, SweetModalTab } from 'sweet-modal-vue'
+import RadialProgressBar from 'vue-radial-progress'
 
 export default {
   name: 'Repository',
   components: {
-    Datasource
+    tree,
+    RadialProgressBar,
+    SweetModal,
+    SweetModalTab
   },
   data () {
     return {
-      response: [],
-      pagination: {
-        total: 25,
-        per_page: 15,
-        last_page: 1,
-        current_page: 1,
-        from: 1,
-        to: 1
+      progress: {
+        completedSteps: 0,
+        totalSteps: 2,
+        finished: true
       },
-      actions: [],
-      columns: [{
-        name: 'import_name',
-        key: 'importName'
-      }, {
-        name: 'user',
-        key: 'user.name'
-      }, {
-        name: 'username',
-        key: 'user.username'
-      }, {
-        name: 'creation_date',
-        key: 'creationDate'
-      }, {
-        name: 'description',
-        key: 'description'
-      }, {
-        name: 'files',
-        key: 'files',
-        render (value) { // Render callback
-          return value.toString().replace(',', ', ')
-        }
+      managementCallback: null,
+      response: [],
+      treeData: [{
+        'id': 1,
+        'text': 'Root node',
+        'children': [{
+          'id': 2,
+          'text': 'Child node 1'
+        },
+        {
+          'id': 3,
+          'text': 'Child node 2'
+        }]
       }]
     }
   },
   methods: {
-    changePage (values) {
-      this.pagination.current_page = values.page
-      this.pagination.perpage = values.perpage
-      this.loadSPEDS(null, this.pagination)
+    nodeChanged (node) {
+      var _self = this
+      _self.progress.completedSteps = 0
+      if (node) {
+        if (node.parent !== '#') {
+          _self.$refs.productManagement.open()
+          this.managementCallback = function (_self) {
+            var __self = _self
+            productBackend.removeChildreen(node.old_parent, node.node.id, (response) => {
+              __self.progress.completedSteps++
+              productBackend.insertChildreen(node.parent, node.node.id, (response) => {
+                __self.progress.completedSteps++
+                __self.progress.finished = true
+                messageService.successMessage(__self, 'Product has been associated')
+              }, __self.errorMessage)
+            }, __self.errorMessage)
+          }
+        } else {
+          productBackend.insertChildreen(node.parent, node.node.id, (response) => {
+            _self.progress.completedSteps = _self.progress.totalSteps
+            _self.progress.finished = true
+            messageService.successMessage(_self, 'Product has been associated')
+          }, this.errorMessage)
+        }
+      } else {
+        this.errorMessage()
+      }
     },
-    onSearch (searchQuery) {
-      this.pagination.current_page = 1
-      this.loadSPEDS(this.getTrueField(searchQuery), this.pagination)
+    onSearch () {
+      this.$refs.tree.rollback(this.treeData)
     },
-    loadSPEDS (search, pagination) {
-      // var _self = this
-      var options = {}
-      if (pagination.per_page) {
-        options.limit = pagination.per_page
-      }
-      if (pagination.current_page) {
-        options.page = pagination.current_page
-      }
-      if (search) {
-        options.search = search
-      }
-      messageService.successMessage()
+    saveProductManagement () {
+      this.managementCallback(this)
+      this.$refs.productManagement.close()
+    },
+    closeProductManagement () {
+      this.errorMessage()
+      this.$refs.productManagement.close()
+    },
+    errorMessage () {
+      this.progress.completedSteps = 0
+      this.progress.finished = true
+      this.$refs.tree.rollback(this.treeData)
+      messageService.errorMessage(this, 'Error has ocurred')
     }
   },
   mounted () {
-    this.loadSPEDS(null, this.pagination)
     rolesService.loadUserRoles(this)
   }
 }
@@ -131,5 +151,5 @@ export default {
   .pull-right {
     margin-left: 2px;
   }
-  
+
 </style>

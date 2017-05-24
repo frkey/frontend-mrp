@@ -35,6 +35,14 @@ module.exports = merge(baseWebpackConfig, {
       inject: true
     }),
 
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jquery: 'jquery',
+      'window.jQuery': 'jquery',
+      jQuery: 'jquery'
+    }),
+
+
     new ReplacePlugin([{
         partten: /{clientIdWebpack}/g,
         replacement: function () {
