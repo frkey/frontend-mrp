@@ -22,11 +22,6 @@
             <span class="page">Products</span>
           </router-link>
         </li>
-        <li>
-          <router-link to="/products/structure"><i class="fa fa-circle-o text-blue"></i>
-            <span class="page">Structure</span>
-          </router-link>
-        </li>
       </ul>
     </li>
 

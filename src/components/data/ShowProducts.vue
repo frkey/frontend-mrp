@@ -1,9 +1,8 @@
 <template>
   <section class="content">
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12" v-if="isProductList">
         <div class="panel panel-info">
-          <div class="panel-heading">All Products</div>
           <div class="panel-body" v-if="roles && roles['manager.delete']">
             <datasource
               language="en"
@@ -24,6 +23,12 @@
               v-on:searching="onSearch"></datasource>
           </div>
         </div>
+      </div >
+      <div class="col-sm-12" v-else>
+        <button v-on:click="isProductList = true" class="col-sm-2 btn btn-primary btn-md pull-right">
+          <i class='fa fa-arrow-circle-left' aria-hidden='true'></i>Back
+        </button>
+        <Treeview :treeData="treeviewData"></Treeview>
       </div>
     </div>
   </section>
@@ -37,16 +42,22 @@ import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
+import Treeview from '../data/Treeview'
 
 export default {
   name: 'Repository',
   components: {
-    Datasource
+    Datasource,
+    Treeview
   },
+  props: ['removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton'],
   data () {
     return {
+      isProductList: true,
+      treeviewData: {},
       response: [],
       pagination: {
+        limits: [15, 20],
         total: 25,
         per_page: 15,
         last_page: 1,
@@ -59,6 +70,9 @@ export default {
       columns: [{
         name: 'code',
         key: 'code'
+      }, {
+        name: 'name',
+        key: 'name'
       }, {
         name: 'family',
         key: 'family'
@@ -96,12 +110,22 @@ export default {
         messageService.errorMessage(_self, error)
       })
     },
+    previewProductTree (data) {
+      productBackend.getChildreen(data._id, (response) => {
+        this.treeData = response.data
+        this.treeviewData = response.data[0]
+        this.isProductList = false
+      }, (error) => {
+        console.log(error)
+        messageService.errorMessage(this, 'Erro occured while get childreen')
+      })
+    },
     loadProducts (search, pagination) {
       var _self = this
       var options = {}
 
-      if (pagination.per_page) {
-        options.limit = pagination.per_page
+      if (pagination.perpage) {
+        options.limit = pagination.perpage
       }
       if (pagination.current_page) {
         options.page = pagination.current_page
@@ -130,33 +154,75 @@ export default {
   },
   mounted () {
     var _self = this
-    this.actions.push({
-      text: 'Select product', // Button label
-      icon: 'fa fa-check', // Button icon
-      class: 'btn-success pull-right', // Button class (background color)
-      event (e, row) { // Event handler callback. Gets event instace and selected row
-        _self.selectProduct(row.row)
-      }
-    })
-    this.actions.push({
-      text: 'Reload products', // Button label
-      icon: 'fa fa-refresh', // Button icon
-      class: 'btn-primary pull-right', // Button class (background color)
-      event (e, row) { // Event handler callback. Gets event instace and selected row
-        _self.reload()
-      }
-    })
-    this.actions.push({
-      text: 'Remove product', // Button label
-      icon: 'fa fa-times', // Button icon
-      class: 'btn-danger pull-right', // Button class (background color)
-      event (e, row) { // Event handler callback. Gets event instace and selected row
-        var r = window.confirm('Are you sure to delete Product?')
-        if (r === true) {
-          _self.removeProduct(row.row)
+    if (this.insertTreeButton === undefined || this.insertTreeButton === true) {
+      this.actions.push({
+        text: 'Insert product in tree', // Button label
+        icon: 'fa fa-plus', // Button icon
+        class: 'btn-treeInsert', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          eventHelper.emit('insertProductInTree', row.row)
         }
-      }
-    })
+      })
+    }
+
+    if (this.selectButton === undefined || this.selectButton === true) {
+      this.actions.push({
+        text: 'Select product', // Button label
+        icon: 'fa fa-check', // Button icon
+        class: 'btn-success', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.selectProduct(row.row)
+        }
+      })
+    }
+
+    if (this.reloadButton === undefined || this.reloadButton === true) {
+      this.actions.push({
+        text: 'Reload products', // Button label
+        icon: 'fa fa-refresh', // Button icon
+        class: 'btn-primary', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.reload()
+        }
+      })
+    }
+
+    if (this.removeButton === undefined || this.removeButton === true) {
+      this.actions.push({
+        text: 'Remove product', // Button label
+        icon: 'fa fa-times', // Button icon
+        class: 'btn-danger', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          var r = window.confirm('Are you sure to delete Product?')
+          if (r === true) {
+            _self.removeProduct(row.row)
+          }
+        }
+      })
+    }
+
+    if (this.showTreeButton === undefined || this.showTreeButton === true) {
+      this.actions.push({
+        text: 'Show product tree', // Button label
+        icon: 'fa fa-share', // Button icon
+        class: 'btn-info', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.$router.push('/products/' + row.row._id + '/structure')
+        }
+      })
+    }
+
+    if (this.previewTreeButton === undefined || this.previewTreeButton === true) {
+      this.actions.push({
+        text: 'Preview product tree', // Button label
+        icon: 'fa fa-eye', // Button icon
+        class: 'btn-warning', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.previewProductTree(row.row)
+        }
+      })
+    }
+
     eventHelper.init()
     eventHelper.on('reloadProductList', () => {
       _self.reload()
@@ -168,6 +234,10 @@ export default {
 </script>
 
 <style>
+  .btn-treeInsert {
+    background: #4B0082;
+    color: white;
+  }
   .img-circle {
     height: 120px;
   }

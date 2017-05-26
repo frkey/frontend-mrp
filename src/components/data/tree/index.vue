@@ -4,17 +4,23 @@
 
 <script>
 import jstree from './jstree'
+import {eventHelper} from '../../../services/eventHelper'
 
 export default {
   name: 'Repository',
-  props: ['nodeChanged', 'treeData'],
+  props: ['nodeChanged', 'onSelect'],
+  data () {
+    return {
+      treeData: []
+    }
+  },
   methods: {
-    loadTree () {
-      console.log(this.nodeChanged)
-      var options = {
-        data: this.treeData,
-        nodeChanged: this.nodeChanged
-      }
+    loadTree (treeData) {
+      var options = {}
+      options.data = treeData
+      options.onSelect = this.onSelect
+      options.nodeChanged = this.nodeChanged
+
       jstree.loadTree(options)
     },
     rollback (data) {
@@ -23,7 +29,11 @@ export default {
   },
   mounted () {
     var _self = this
-    _self.loadTree()
+    eventHelper.init()
+    eventHelper.on('loadTree', (tree) => {
+      _self.treeData = tree
+      _self.loadTree(tree)
+    })
   }
 }
 </script>

@@ -33,10 +33,10 @@ const routes = [
       name: 'products',
       meta: {description: 'management'}
     }, {
-      path: '/products/structure',
+      path: '/products/:productId/structure',
       component: StructureView,
       name: '',
-      meta: {description: ''}
+      meta: {current:'ok', description: ''}
     }]
   }, {
     path: '/unauthorized',
