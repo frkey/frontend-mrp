@@ -44,6 +44,7 @@ function getChildreen (productId, successCallback, errorCallback) {
 }
 
 function insertChildreen (parentId, childreenId, body, successCallback, errorCallback) {
+  console.log(body)
   var url = productUrl + '/' + parentId + '/children/' + childreenId
   axios.put(url, body)
     .then(successCallback)

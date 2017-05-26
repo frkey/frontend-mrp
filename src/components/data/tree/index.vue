@@ -8,7 +8,7 @@ import {eventHelper} from '../../../services/eventHelper'
 
 export default {
   name: 'Repository',
-  props: ['nodeChanged', 'onSelect'],
+  props: ['nodeChanged', 'onSelect', 'onEdit', 'onDelete'],
   data () {
     return {
       treeData: []
@@ -18,6 +18,8 @@ export default {
     loadTree (treeData) {
       var options = {}
       options.data = treeData
+      options.onEdit = this.onEdit
+      options.onDelete = this.onDelete
       options.onSelect = this.onSelect
       options.nodeChanged = this.nodeChanged
 

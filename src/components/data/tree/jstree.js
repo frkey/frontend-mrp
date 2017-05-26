@@ -28,11 +28,34 @@ function loadTree (opts) {
         'responsive': true
        }
     },
+    "contextmenu":{
+      "items": function($node) {
+          var tree = $("#js-tree").jstree(true);
+          return {
+              "Edit": {
+                  "separator_before": false,
+                  "separator_after": false,
+                  "label": "Edit",
+                  "action": function (obj) {
+                      options.onEdit(true);
+                  }
+              },
+              "Remove": {
+                  "separator_before": false,
+                  "separator_after": false,
+                  "label": "Remove",
+                  "action": function (obj) {
+                    options.onDelete();
+                  }
+              }
+          };
+      }
+  },
     "plugins" : [
       "dnd", "search",
       "state", "types",
       'html_data', "wholerow",
-      'themes', 'ui'
+      'themes', 'ui', 'contextmenu'
     ],
     "search" : {
         "show_only_matches": true
