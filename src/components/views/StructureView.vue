@@ -226,11 +226,8 @@ export default {
               this.productStructIsVisible = false
               relationshipData.parent = this.nodeSelected.parent
               relationshipData.node = this.nodeSelected.node
-            } else {
-              this.loadChildren()
             }
           }
-
           this.relationshipData = relationshipData
         }
       }
