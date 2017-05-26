@@ -233,7 +233,7 @@ export default {
       }
     },
     errorMessage () {
-      this.$refs.tree.rollback(this.treeData)
+      this.loadChildren()
       messageService.errorMessage(this, 'Error has ocurred')
     },
     isEmpty (obj) {
