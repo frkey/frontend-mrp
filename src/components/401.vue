@@ -4,9 +4,9 @@
         <div class="container">
           <img src="/static/img/logo.png" class="center-block logo">
           <div class="text-center col-sm-6 col-sm-offset-3">
-            <h1>You dont have authorization</h1>
-            <h4>Please do login</h4>
-            <button v-on:click='openGatewayLogin'>Click here to login</button>
+            <h1 v-translate>pages.401.unauthorized</h1>
+            <h4 v-translate>pages.401.pleaseDoLogin</h4>
+            <button v-on:click='openGatewayLogin'>{{ t('pages.401.clickHereToLogin') }}</button>
           </div>
         </div>
       </div>
@@ -14,13 +14,18 @@
 </template>
 <script>
   import authService from '../services/authService'
+  import languageService from '../services/languageService'
   import securityBackend from '../apis/securityBackend'
+
   export default {
     name: 'unauthorized',
     methods: {
       openGatewayLogin () {
         securityBackend.openGatewayLogin(authService.getClientId(), authService.getRedirectURI())
       }
+    },
+    mounted () {
+      languageService.loadLanguage(this)
     }
   }
 </script>

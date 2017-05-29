@@ -4,9 +4,9 @@
         <div class="container">
           <img src="/static/img/logo.png" class="center-block logo">
           <div class="text-center col-sm-6 col-sm-offset-3">
-            <h1>Logout successful</h1>
-            <h4>See you</h4>
-            <button v-on:click='openGatewayLogin'>Click here to login</button>
+            <h1 v-translate>pages.logout.header</h1>
+            <h4 v-translate>pages.logout.greeting</h4>
+            <button v-on:click='openGatewayLogin'>{{ t('pages.logout.toLogin') }}</button>
           </div>
         </div>
       </div>
@@ -15,6 +15,7 @@
 <script>
   import authService from '../services/authService'
   import securityBackend from '../apis/securityBackend'
+  import languageService from '../services/languageService'
   export default {
     name: 'logout',
     methods: {
@@ -35,6 +36,7 @@
       }
     },
     mounted () {
+      languageService.loadLanguage(this)
       this.logout()
     }
   }

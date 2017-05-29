@@ -43,6 +43,7 @@ import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
 import Treeview from '../data/Treeview'
+import languageService from '../../services/languageService'
 
 export default {
   name: 'Repository',
@@ -68,19 +69,19 @@ export default {
       roles: undefined,
       actions: [],
       columns: [{
-        name: 'code',
+        name: 'pages.messages.showProducts.fields.code',
         key: 'code'
       }, {
-        name: 'name',
+        name: 'pages.messages.showProducts.fields.name',
         key: 'name'
       }, {
-        name: 'family',
+        name: 'pages.messages.showProducts.fields.family',
         key: 'family'
       }, {
-        name: 'productType',
+        name: 'pages.messages.showProducts.fields.productType',
         key: 'productType'
       }, {
-        name: 'amountInStock',
+        name: 'pages.messages.showProducts.fields.amountInStock',
         key: 'amountInStock'
       }]
     }
@@ -105,7 +106,7 @@ export default {
       var _self = this
       productBackend.removeProduct(product, (response) => {
         _self.reload()
-        messageService.successMessage(_self, 'Product has removed')
+        messageService.successMessage(_self, this.t('pages.messages.product.productRemoved'))
       }, (error) => {
         messageService.errorMessage(_self, error)
       })
@@ -117,7 +118,7 @@ export default {
         this.isProductList = false
       }, (error) => {
         console.log(error)
-        messageService.errorMessage(this, 'Erro occured while get childreen')
+        messageService.errorMessage(this, this.t('pages.messages.product.childrenErrorOcurred'))
       })
     },
     loadProducts (search, pagination) {
@@ -153,12 +154,13 @@ export default {
     }
   },
   mounted () {
+    languageService.loadLanguage(this)
     var _self = this
     if (this.insertTreeButton === undefined || this.insertTreeButton === true) {
       this.actions.push({
-        text: 'Insert product in tree', // Button label
+        text: this.t('pages.messages.showProducts.insertProduct'), // Button label
         icon: 'fa fa-plus', // Button icon
-        class: 'btn-treeInsert', // Button class (background color)
+        class: 'btn-success btn-md', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
           eventHelper.emit('insertProductInTree', row.row)
         }
@@ -167,9 +169,9 @@ export default {
 
     if (this.selectButton === undefined || this.selectButton === true) {
       this.actions.push({
-        text: 'Select product', // Button label
+        text: this.t('pages.messages.showProducts.selectProduct'), // Button label
         icon: 'fa fa-check', // Button icon
-        class: 'btn-success', // Button class (background color)
+        class: 'btn-md btn-success', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
           _self.selectProduct(row.row)
         }
@@ -178,9 +180,9 @@ export default {
 
     if (this.reloadButton === undefined || this.reloadButton === true) {
       this.actions.push({
-        text: 'Reload products', // Button label
+        text: this.t('pages.messages.showProducts.reloadProducts'), // Button label
         icon: 'fa fa-refresh', // Button icon
-        class: 'btn-primary', // Button class (background color)
+        class: 'btn-primary btn-md', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
           _self.reload()
         }
@@ -189,11 +191,11 @@ export default {
 
     if (this.removeButton === undefined || this.removeButton === true) {
       this.actions.push({
-        text: 'Remove product', // Button label
+        text: this.t('pages.messages.showProducts.removeProduct'), // Button label
         icon: 'fa fa-times', // Button icon
-        class: 'btn-danger', // Button class (background color)
+        class: 'btn-md btn-danger', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
-          var r = window.confirm('Are you sure to delete Product?')
+          var r = window.confirm(_self.t('pages.messages.showProducts.removeProduct.confirmation'))
           if (r === true) {
             _self.removeProduct(row.row)
           }
@@ -203,9 +205,9 @@ export default {
 
     if (this.showTreeButton === undefined || this.showTreeButton === true) {
       this.actions.push({
-        text: 'Show product tree', // Button label
+        text: this.t('pages.messages.showProducts.productTree'), // Button label
         icon: 'fa fa-share', // Button icon
-        class: 'btn-info', // Button class (background color)
+        class: 'btn-md btn-info', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
           _self.$router.push('/products/' + row.row._id + '/structure')
         }
@@ -214,13 +216,17 @@ export default {
 
     if (this.previewTreeButton === undefined || this.previewTreeButton === true) {
       this.actions.push({
-        text: 'Preview product tree', // Button label
+        text: this.t('pages.messages.showProducts.previewTree'), // Button label
         icon: 'fa fa-eye', // Button icon
-        class: 'btn-warning', // Button class (background color)
+        class: 'btn-md btn-warning', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
           _self.previewProductTree(row.row)
         }
       })
+    }
+
+    for (var i = 0; i < this.columns.length; i++) {
+      this.columns[i].name = this.t(this.columns[i].name)
     }
 
     eventHelper.init()

@@ -4,23 +4,27 @@
         <div class="container">
           <img src="/static/img/logo.png" class="center-block logo">
           <div class="text-center col-sm-6 col-sm-offset-3">
-            <h1>You don't have permission to access</h1>
-            <h4>Contact your system administrator</h4>
-            <button v-on:click='backToHome'>Back to home</button>
+            <h2 v-translate>pages.403.forbbiden</h2>
+            <h4 v-translate>pages.403.contactAdmin</h4>
+            <button v-on:click='backToHome'>{{ t('pages.403.backToHome') }}</button>
           </div>
         </div>
       </div>
   </div>
 </template>
 <script>
-  export default {
-    name: 'error',
-    methods: {
-      backToHome () {
-        window.location.href = '/'
-      }
+import languageService from '../services/languageService'
+export default {
+  name: 'error',
+  methods: {
+    backToHome () {
+      window.location.href = '/'
     }
+  },
+  mounted () {
+    languageService.loadLanguage(this)
   }
+}
 </script>
 
 <style>

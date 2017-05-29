@@ -20,8 +20,7 @@ const routes = [
       path: 'dashboard',
       alias: '',
       component: DashboardView,
-      name: 'Dashboard',
-      meta: {description: 'System Overview'}
+      name: ''
     }, {
       path: '/credentials',
       component: Credentials,
@@ -30,13 +29,11 @@ const routes = [
     }, {
       path: '/products',
       component: ProductView,
-      name: 'products',
-      meta: {description: 'management'}
+      name: ''
     }, {
       path: '/products/:productId/structure',
       component: StructureView,
-      name: '',
-      meta: {current:'ok', description: ''}
+      name: ''
     }]
   }, {
     path: '/unauthorized',

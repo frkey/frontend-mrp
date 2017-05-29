@@ -5,6 +5,7 @@ const SET_REFRESH_TOKEN = 'SET_REFRESH_TOKEN'
 const SET_REDIRECT_URI = 'SET_REDIRECT_URI'
 const SET_IS_AUTHORIZED = 'SET_IS_AUTHORIZED'
 const SET_USER = 'SET_USER'
+const SET_LANGUAGE = 'SET_LANGUAGE'
 
 const state = {
   client_id: '{clientIdWebpack}',
@@ -13,7 +14,8 @@ const state = {
   refresh_token: '',
   redirect_uri: '{redirectUriWebpack}',
   is_authorized: '',
-  user: undefined
+  user: undefined,
+  language: 'pt'
 }
 
 const mutations = {
@@ -37,6 +39,9 @@ const mutations = {
   },
   [SET_USER] (state, user) {
     state.user = user
+  },
+  [SET_LANGUAGE] (state, language) {
+    state.language = language
   }
 }
 

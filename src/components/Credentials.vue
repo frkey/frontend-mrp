@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">User Data</h1>
+    <h1 class="text-center" v-translate>pages.credentials.header</h1>
     <section class="container" >
       <div class="row">
         <div class="col-sm-12">
@@ -11,9 +11,9 @@
                   <div class="panel-info-header">
                     <div class="col-sm-12">
                       <div class="description-blockblock">
-                        <h5 class="description-header">Old password</h5>
-                        <input name="OldPassword" v-validate="{ rules: { required: true } }" class="form-control" type="password" v-model="response.oldPassword">
-                        <span v-show="errors.has('OldPassword')">{{errors.first('OldPassword')}}</span>
+                        <h5 class="description-header" v-translate>pages.credentials.currentPassword</h5>
+                        <input name="Current" v-validate="{ rules: { required: true } }" class="form-control" type="password" v-model="response.oldPassword">
+                        <span class="label label-danger"  v-show="errors.has('Current')">{{isErrors('Current')}}</span>
                      </div>
                     </div>
                   </div>
@@ -22,9 +22,9 @@
                   <div class="panel-info-header">
                     <div class="col-sm-12">
                       <div class="description-blockblock">
-                        <h5 class="description-header">New password</h5>
+                        <h5 class="description-header" v-translate>pages.credentials.newPassword</h5>
                         <input name="NewPassword" v-validate="{ rules: { required: true } }" class="form-control" type="password" v-model="response.newPassword">
-                        <span v-show="errors.has('NewPassword')">{{errors.first('NewPassword')}}</span>
+                        <span class="label label-danger"  v-show="errors.has('NewPassword')">{{isErrors('NewPassword')}}</span>
                      </div>
                     </div>
                   </div>
@@ -33,9 +33,9 @@
                   <div class="panel-info-header">
                     <div class="col-sm-12">
                       <div class="description-blockblock">
-                        <h5 class="description-header">Confirm new password</h5>
+                        <h5 class="description-header" v-translate>pages.credentials.confirmPassword</h5>
                         <input name="ConfirmPassword" v-validate="{ rules: { required: true } }" class="form-control" type="password" v-model="response.confNewPassword">
-                        <span v-show="errors.has('ConfirmPassword')">{{errors.first('ConfirmPassword')}}</span>
+                        <span class="label label-danger"  v-show="errors.has('ConfirmPassword')">{{isErrors('ConfirmPassword')}}</span>
                      </div>
                     </div>
                   </div>
@@ -43,7 +43,7 @@
                 <div class="row">
                   <br/>
                   <div class="col-sm-12">
-                    <button type="button" v-on:click="savePassword(response)" class=" col-sm-2 btn btn-primary btn-md pull-right">Save</button>
+                    <button type="button" v-on:click="savePassword(response)" class=" col-sm-2 btn btn-primary btn-md pull-right">{{ t('pages.credentials.saveButton') }}</button>
                   </div>
                 </div>
               </form>
@@ -57,6 +57,7 @@
 </template>
 <script>
 import authService from '../services/authService'
+import languageService from '../services/languageService'
 import messageService from '../services/messageService'
 import securityBackend from '../apis/securityBackend'
 
@@ -72,7 +73,7 @@ export default {
       var _self = this
       user.username = authService.getUser().username
       securityBackend.changePassword(user, (response) => {
-        messageService.successMessage(_self, 'Password has updated')
+        messageService.successMessage(_self, this.t('pages.messages.credentials.passwordChanged'))
       }, (error) => {
         if (error.response.data) {
           messageService.errorMessage(_self, error.response.data.message)
@@ -80,7 +81,17 @@ export default {
           messageService.errorMessage(_self, error.message)
         }
       })
+    },
+    isErrors (field) {
+      var msg = this.errors.first(field)
+      if (msg) {
+        msg = msg.replace(' ' + field, '')
+      }
+      return msg
     }
+  },
+  mounted () {
+    languageService.loadLanguage(this)
   }
 }
 </script>

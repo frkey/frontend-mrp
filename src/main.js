@@ -12,6 +12,9 @@ import VueResource from 'vue-resource'
 import ToggleButton from 'vue-js-toggle-button'
 import { VudalPlugin } from 'vudal'
 import axios from 'axios'
+import VueTranslate from 'vue-translate-plugin'
+import Language from './language'
+import VeeValidateMessagesBR from "vee-validate/dist/locale/pt_BR"
 
 var config = require('./config')
 var baseUrl = config.frontendAddress
@@ -35,10 +38,14 @@ Vue.use(store)
 Vue.use(Toast)
 Vue.use(VueRouter)
 Vue.use(VueResource)
-Vue.use(VeeValidate)
+VeeValidate.Validator.addLocale(VeeValidateMessagesBR)
+Vue.use(VeeValidate, {locale: 'pt_BR'})
 Vue.use(pagination)
 Vue.use(ToggleButton)
 Vue.use(VudalPlugin)
+Vue.use(VueTranslate)
+
+new Language(Vue)
 
 // Routing logic
 var router = new VueRouter({
@@ -111,7 +118,7 @@ sync(store, router)
 
 // Start out app!
 // eslint-disable-next-line no-new
-new Vue({
+var app = new Vue({
   el: '#root',
   router: router,
   store: store,

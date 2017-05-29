@@ -49,6 +49,13 @@ const getUser = function () {
   return store.state.auth.user
 }
 
+const setLanguage = function (language) {
+  store.commit('SET_LANGUAGE', language)
+}
+const getLanguage = function () {
+  return store.state.auth.language
+}
+
 export default {
   setClientId: setClientId,
   getClientId: getClientId,
@@ -63,5 +70,7 @@ export default {
   setIsAuthorized: setIsAuthorized,
   isAuthorized: isAuthorized,
   setUser: setUser,
-  getUser: getUser
+  getUser: getUser,
+  setLanguage: setLanguage,
+  getLanguage: getLanguage
 }

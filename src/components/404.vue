@@ -4,18 +4,22 @@
         <div class="container">
           <img src="/static/img/logo.png" class="center-block logo">
           <div class="text-center col-sm-6 col-sm-offset-3">
-            <h1>You are lost.</h1>
-            <h4>This page doesn't exist.</h4>
-            <router-link to="/">Take me home.</router-link>
+            <h1 v-translate>pages.404.youAreLost</h1>
+            <h4 v-translate>pages.404.pageDoesntExist</h4>
+            <router-link to="/">{{ t('pages.404.backToHome') }}</router-link>
           </div>
         </div>
       </div>
   </div>
 </template>
 <script>
-  export default {
-    name: 'NotFound'
+import languageService from '../services/languageService'
+export default {
+  name: 'NotFound',
+  mounted () {
+    languageService.loadLanguage(this)
   }
+}
 </script>
 
 <style>

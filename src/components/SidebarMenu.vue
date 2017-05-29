@@ -1,17 +1,17 @@
 <template>
   <ul class="sidebar-menu">
-    <li class="header">PRINCIPAL</li>
+    <li class="header">{{ t('pages.sidebar.category.principal') }}</li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/"><i class="fa fa-desktop"></i>
-        <span class="page">Dashboard</span>
+        <span class="page" v-translate>pages.sidebar.item.dashboard</span>
       </router-link>
     </li>
 
-    <li class="header">STOCK</li>
+    <li class="header">{{ t('pages.sidebar.category.stock') }}</li>
     <li class="treeview">
       <a href="#">
         <i class="icon-code-fork"></i>
-        <span>Product Management</span>
+        <span v-translate>pages.sidebar.item.productManagement</span>
         <span class="pull-right-container">
           <i class="fa fa-chevron-down fa-fw pull-right"></i>
         </span>
@@ -19,27 +19,28 @@
       <ul class="treeview-menu">
         <li>
           <router-link to="/products"><i class="fa fa-circle-o text-red"></i>
-            <span class="page">Products</span>
+            <span class="page" v-translate>pages.sidebar.item.products</span>
           </router-link>
         </li>
       </ul>
     </li>
 
-    <li class="header">CONFIGURATION</li>
+    <li class="header">{{ t('pages.sidebar.category.configuration') }}</li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/credentials"><i class="fa fa-cog"></i>
-        <span class="page">Credentials</span>
+        <span class="page" v-translate>pages.sidebar.item.credentials</span>
       </router-link>
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/logout"><i class="fa fa-sign-out"></i>
-        <span class="page">Logout</span>
+        <span class="page" v-translate>pages.sidebar.item.logout</span>
       </router-link>
     </li>
 
   </ul>
 </template>
 <script>
+import languageService from '../services/languageService'
 export default {
   name: 'SidebarName',
   methods: {
@@ -54,6 +55,9 @@ export default {
       // Add it to the item that was clicked
       event.toElement.parentElement.className = 'pageLink active'
     }
+  },
+  mounted () {
+    languageService.loadLanguage(this)
   }
 }
 </script>
