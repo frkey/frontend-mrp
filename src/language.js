@@ -2,7 +2,7 @@ export default class {
   constructor (vuejs) {
     this.vuejs = vuejs
     this.languages = {}
-    this.languages.pt = {
+    this.languages.pt_BR = {
       'error.general' : 'Error has ocurred',
       'pages.messages.product.productInserted': 'Produto inserido',
       'pages.messages.product.productUpdated': 'Produto atualizado',

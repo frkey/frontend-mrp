@@ -15,7 +15,7 @@ const state = {
   redirect_uri: '{redirectUriWebpack}',
   is_authorized: '',
   user: undefined,
-  language: 'pt'
+  language: 'pt_BR'
 }
 
 const mutations = {

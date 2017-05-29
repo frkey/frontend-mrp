@@ -57,6 +57,7 @@ var router = new VueRouter({
 })
 
 axios.interceptors.request.use(function (config) {
+  config.headers['accept-language'] = authService.getLanguage()
   config.headers.Authorization = 'Bearer ' + (authService.getAccessToken() ? authService.getAccessToken() : '1')
   return config
 }, function (err) {
