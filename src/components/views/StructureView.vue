@@ -9,7 +9,7 @@
           <span >{{relationshipMessage}}</span>
           <h5 class="description-header align-left" v-translate>pages.structure.relation.children.quantity</h5>
           <input v-validate="{ rules: { required: true , decimal:true} }" name="quantidade"  class="form-control" type="text" v-model="relationshipData.quantity">
-          <span class="label label-danger" v-show="errors.has('quantidade')">{{ errors.first('quantidade') }}</span>
+          <span class="label label-danger" v-show="errors.has('quantidade')">{{isErrors('quantidade')}}</span>
         </div>
       </modal>
       <div class='col-sm-6'>
@@ -23,21 +23,21 @@
                       <div class="box-header">
                         <h5 class="description-header align-left" v-translate>pages.structure.relation.fathersName</h5>
                         <input v-validate="{ rules: { required: true } }" name="Pai"  class="form-control" type="text" v-model="relationshipData.parent.text">
-                        <span class="label label-danger" v-show="errors.has('Pai')">{{ errors.first('Pai') }}</span>
+                        <span class="label label-danger" v-show="errors.has('Pai')">{{ isErrors('Pai') }}</span>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <div class="box-header">
                         <h5 class="description-header align-left" v-translate>pages.structure.relation.sonName</h5>
                         <input v-validate="{ rules: { required: true } }" name="Filho"  class="form-control" type="text" v-model="relationshipData.node.text">
-                        <span class="label label-danger" v-show="errors.has('Filho')">{{ errors.first('Filho') }}</span>
+                        <span class="label label-danger" v-show="errors.has('Filho')">{{ isErrors('Filho') }}</span>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <div class="box-header">
                         <h5 class="description-header align-left" v-translate>pages.structure.relation.children.quantity</h5>
                         <input v-validate="{ rules: { required: true , decimal:true} }" name="Quantidade"  class="form-control" type="text" v-model="relationshipData.quantity">
-                        <span class="label label-danger" v-show="errors.has('Quantidade')">{{ errors.first('Quantidade') }}</span>
+                        <span class="label label-danger" v-show="errors.has('Quantidade')">{{ isErrors('Quantidade') }}</span>
                       </div>
                     </div>
                     <div class="row" v-if="roles && roles['manager.write']">
@@ -251,6 +251,13 @@ export default {
         if (hasOwnProperty.call(obj, key)) return false
       }
       return true
+    },
+    isErrors (field) {
+      var msg = this.errors.first(field)
+      if (msg) {
+        msg = msg.replace(' ' + field, '')
+      }
+      return msg
     }
   },
   mounted () {
