@@ -22,7 +22,14 @@ function loadTree (opts) {
     }).jstree({
     "core" : {
       "animation" : 1,
-      "check_callback" : true,
+        "check_callback" : function (operation, node, parent, position, more) {
+        if(operation === "copy_node" || operation === "move_node") {
+          if(parent.id === "#") {
+            return false; // prevent moving a child above or below the root
+          }
+        }
+        return true; // allow everything else
+      },
       "data": opts.data,
       'themes': {
         'responsive': true
