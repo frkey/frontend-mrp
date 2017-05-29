@@ -38,24 +38,30 @@ function loadTree (opts) {
     "contextmenu":{
       "items": function($node) {
           var tree = $("#js-tree").jstree(true);
-          return {
-              "Edit": {
-                  "separator_before": false,
-                  "separator_after": false,
-                  "label": "Edit",
-                  "action": function (obj) {
-                      options.onEdit(true);
-                  }
-              },
-              "Remove": {
-                  "separator_before": false,
-                  "separator_after": false,
-                  "label": "Remove",
-                  "action": function (obj) {
-                    options.onDelete();
-                  }
-              }
-          };
+
+          if($node.parent === '#') {
+            return {}
+          }
+          else {
+            return {
+                "Edit": {
+                    "separator_before": false,
+                    "separator_after": false,
+                    "label": "Edit",
+                    "action": function (obj) {
+                        options.onEdit(true);
+                    }
+                },
+                "Remove": {
+                    "separator_before": false,
+                    "separator_after": false,
+                    "label": "Remove",
+                    "action": function (obj) {
+                      options.onDelete();
+                    }
+                }
+            };
+          }
       }
   },
     "plugins" : [
