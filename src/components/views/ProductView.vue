@@ -9,7 +9,7 @@
       </div>
 
       <div class="col-sm-6">
-        <button type="submit" v-on:click="productEdit = true; response={}" class=" col-sm-4 btn btn-primary btn-md pull-right" v-if="!productEdit"> <i class="fa fa-plus" aria-hidden="true"></i>{{ t('pages.products.button.newProduct') }}</button>
+        <button type="submit" v-on:click="productEdit = true; response={purchasePrice: 0}" class=" col-sm-4 btn btn-primary btn-md pull-right" v-if="!productEdit"> <i class="fa fa-plus" aria-hidden="true"></i>{{ t('pages.products.button.newProduct') }}</button>
 
         <section class="box box-info" v-if="productEdit">
           <div class="box-body">
