@@ -89,6 +89,7 @@ export default class {
       'pages.messages.showProducts.productTree': 'Show product tree',
       'pages.messages.showProducts.fields.code': 'Code',
       'pages.messages.showProducts.fields.name': 'Name',
+      'pages.messages.showProducts.fields.family': 'Family',
       'pages.messages.showProducts.fields.productType': 'Product type',
       'pages.messages.showProducts.fields.amountInStock': 'Amount in stock',
       'pages.messages.product.productRemoved': 'Product has removed',
