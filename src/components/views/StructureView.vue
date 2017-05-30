@@ -92,6 +92,7 @@ import Treeview from '../data/Treeview'
 import {eventHelper} from '../../services/eventHelper'
 import languageService from '../../services/languageService'
 import Modal from 'modal-vue'
+import AwesomeMask from 'awesome-mask'
 
 export default {
   name: 'Repository',
@@ -101,6 +102,9 @@ export default {
     eventHelper,
     Treeview,
     Modal
+  },
+  directives: {
+    AwesomeMask
   },
   data () {
     return {

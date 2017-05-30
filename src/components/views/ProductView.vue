@@ -38,8 +38,8 @@
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.products.label.productType</h5>
                 <select name="product_type" v-validate="{ rules: { required: true } }" class="pull-left form-control" v-model="response.productType">
-                  <option value="bought">comprado</option>
-                  <option value="produced">produzido</option>
+                  <option value="1">comprado</option>
+                  <option value="2">produzido</option>
                 </select>
                 <span class="label label-danger" v-show="errors.has('product_type')">{{isErrors('product_type')}}</span>
               </div>
@@ -48,11 +48,11 @@
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.products.label.unitType</h5>
                 <select name="unit" v-validate="{ rules: { required: true } }" class="pull-left form-control" v-model="response.unit">
-                  <option value='units' v-translate>pages.products.label.unitType.unit</option>
-                  <option value='kg' v-translate>KG</option>
-                  <option value='squareMeters' v-translate>m²</option>
-                  <option value='cubicMeters' v-translate>m³</option>
-                  <option value='liters' v-translate>litros</option>
+                  <option value='units' v-translate>un</option>
+                  <option value='kg' v-translate>kg</option>
+                  <option value='m²' v-translate>m²</option>
+                  <option value='m³' v-translate>m³</option>
+                  <option value='liters' v-translate>l</option>
                 </select>
                 <span class="label label-danger" v-show="errors.has('unit')">{{ isErrors('unit') }}</span>
               </div>
@@ -67,7 +67,7 @@
             <div class="col-sm-12">
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.products.label.purchasePrice</h5>
-                <input v-validate="{ rules: { required: true, decimal:true } }" name="purchase_price"  class="form-control" type="text" v-model="response.purchasePrice">
+                <vue-numeric v-validate="{ rules: { required: true, decimal:true } }" name="purchase_price"  class="form-control" type="text" v-model="response.purchasePrice" currency="$" separator=","></vue-numeric>
                 <span class="label label-danger" v-show="errors.has('purchase_price')">{{ isErrors('purchase_price') }}</span>
               </div>
             </div>
@@ -95,11 +95,13 @@ import productBackend from '../../apis/productBackend'
 import productData from '../data/ShowProducts'
 import {eventHelper} from '../../services/eventHelper'
 import languageService from '../../services/languageService'
+import VueNumeric from 'vue-numeric'
 
 export default {
   name: 'Repository',
   components: {
-    productData
+    productData,
+    VueNumeric
   },
   props: ['productData'],
   data () {
@@ -165,6 +167,7 @@ export default {
     eventHelper.init()
     eventHelper.on('productData', (productData) => {
       _self.productEdit = true
+      productData.purchasePrice = productData.purchasePrice ? productData.purchasePrice : 0
       _self.response = productData
     })
   }

@@ -44,12 +44,14 @@ import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
 import Treeview from '../data/Treeview'
 import languageService from '../../services/languageService'
+import VueNumeric from 'vue-numeric'
 
 export default {
   name: 'Repository',
   components: {
     Datasource,
-    Treeview
+    Treeview,
+    VueNumeric
   },
   props: ['removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton'],
   data () {

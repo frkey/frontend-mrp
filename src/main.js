@@ -14,7 +14,9 @@ import { VudalPlugin } from 'vudal'
 import axios from 'axios'
 import VueTranslate from 'vue-translate-plugin'
 import Language from './language'
+import Vue2Filters from 'vue2-filters'
 import VeeValidateMessagesBR from "vee-validate/dist/locale/pt_BR"
+import VueTheMask from 'vue-the-mask'
 
 var config = require('./config')
 var baseUrl = config.frontendAddress
@@ -44,6 +46,8 @@ Vue.use(pagination)
 Vue.use(ToggleButton)
 Vue.use(VudalPlugin)
 Vue.use(VueTranslate)
+Vue.use(Vue2Filters)
+Vue.use(VueTheMask)
 
 new Language(Vue)
 

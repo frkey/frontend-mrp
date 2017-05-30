@@ -58,7 +58,6 @@ export default class {
       'pages.products.label.productType.bought': 'Comprado',
       'pages.products.label.productType.produced': 'Produzido',
       'pages.products.label.unitType': 'Unidade',
-      'pages.products.label.unitType.unit': 'Unidade',
       'pages.products.label.leadTime': 'Tempo de espera',
       'pages.products.label.purchasePrice': 'Preço de compra',
       'pages.products.label.description': 'Descrição',
