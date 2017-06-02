@@ -7,6 +7,28 @@
       </router-link>
     </li>
 
+    <li class="header">{{ t('pages.sidebar.category.pcp') }}</li>
+    <li class="treeview">
+      <a>
+        <i class="icon-code-fork"></i>
+        <router-link to="/necessities"><i class="fa fa-circle-o text-blue"></i>
+          <span class="page" v-translate>pages.sidebar.item.necessity</span>
+        </router-link>
+      </a>
+      <a href="#">
+        <i class="icon-code-fork"></i>
+        <router-link to="/products"><i class="fa fa-circle-o text-blue"></i>
+          <span class="page" v-translate>pages.sidebar.item.order</span>
+        </router-link>
+      </a>
+      <a href="#">
+        <i class="icon-code-fork"></i>
+        <router-link to="/products"><i class="fa fa-circle-o text-blue"></i>
+          <span class="page" v-translate>pages.sidebar.item.supply</span>
+        </router-link>
+      </a>
+    </li>
+
     <li class="header">{{ t('pages.sidebar.category.stock') }}</li>
     <li class="treeview">
       <a href="#">

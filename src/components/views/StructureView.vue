@@ -53,7 +53,7 @@
           <div class='panel panel-info'  v-show="productStructIsVisible">
             <div class='panel-heading' v-translate>pages.structure.header</div>
             <div class='panel-body'>
-              <tree :onDelete="removeRelationShipData" :onEdit="openQuantityChange" :nodeChanged='nodeChanged' :onSelect='onSelect'></tree>
+              <tree :tree="treeData" :onDelete="removeRelationShipData" :onEdit="openQuantityChange" :nodeChanged='nodeChanged' :onSelect='onSelect'></tree>
             </div>
           </div>
         </div>
@@ -150,7 +150,6 @@ export default {
       productBackend.getChildreen(this.$route.params.productId, (response) => {
         this.treeData = response.data
         this.treeviewData = response.data[0]
-        eventHelper.emit('loadTree', response.data)
       }, (error) => {
         console.log(error)
         messageService.errorMessage(this, this.t('pages.structure.relation.children.error'))

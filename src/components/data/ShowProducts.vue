@@ -43,6 +43,7 @@ import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
 import Treeview from '../data/Treeview'
+import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
 import VueNumeric from 'vue-numeric'
 
@@ -53,7 +54,14 @@ export default {
     Treeview,
     VueNumeric
   },
-  props: ['removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton'],
+  props: ['products', 'removeButton', 'reloadButton', 'selectButton',
+    'showTreeButton', 'insertTreeButton', 'previewTreeButton', 'selectMethodCallback'],
+  watch: {
+    products: function (val) {
+      this.products = val
+      this.loadProducts(null, this.pagination)
+    }
+  },
   data () {
     return {
       isProductList: true,
@@ -96,7 +104,10 @@ export default {
     },
     onSearch (searchQuery) {
       this.pagination.current_page = 1
-      this.loadProducts(searchQuery, this.pagination)
+      bodyTransformation.frontendNameToBackendName(searchQuery, this.t, this.columns, (query) => {
+        console.log(query)
+        this.loadProducts(query, this.pagination)
+      })
     },
     reload () {
       this.loadProducts(null, this.pagination)
@@ -137,22 +148,19 @@ export default {
         options.search = search
       }
 
-      productBackend.loadProducts(options, (response) => {
-        if (response.status !== 200) {
-          _self.error = response.statusText
-          return
-        }
-        _self.pagination.current_page = pagination.current_page
-        _self.pagination.last_page = response.data.pages
-        _self.pagination.perpage = response.data.limit
-        _self.response = response.data.docs
-      }, (error) => {
-        if (error.response.data) {
-          messageService.errorMessage(_self, error.response.data.message)
-        } else {
+      if (this.products === undefined) {
+        productBackend.loadProducts(options, (response) => {
+          _self.pagination.current_page = pagination.current_page
+          _self.pagination.last_page = response.data.pages
+          _self.pagination.perpage = response.data.limit
+          _self.response = response.data.docs
+        }, (error) => {
+          console.log(error)
           messageService.errorMessage(_self, error.message)
-        }
-      })
+        })
+      } else {
+        _self.response = this.products
+      }
     }
   },
   mounted () {
@@ -175,7 +183,11 @@ export default {
         icon: 'fa fa-check', // Button icon
         class: 'btn-md btn-success', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
-          _self.selectProduct(row.row)
+          if (_self.selectMethodCallback === undefined) {
+            _self.selectProduct(row.row)
+          } else {
+            _self.selectMethodCallback(row.row)
+          }
         }
       })
     }

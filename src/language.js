@@ -48,6 +48,10 @@ export default class {
       'pages.sidebar.item.products': 'Produtos',
       'pages.sidebar.category.configuration': 'CONFIGURAÇÃO',
       'pages.sidebar.item.credentials': 'Credenciais',
+      'pages.sidebar.category.pcp': 'PROGRAMAÇÃO DE PRODUÇÃO',
+      'pages.sidebar.item.necessity': 'Necessidades',
+      'pages.sidebar.item.order': 'Ordens de produção',
+      'pages.sidebar.item.supply': 'Suprimentos',
       'pages.sidebar.item.logout': 'Sair',
       'pages.products.header': 'Produtos',
       'pages.products.button.newProduct': ' Novo produto',
@@ -74,8 +78,26 @@ export default class {
       'pages.structure.relation.': 'Edit quantity',
       'pages.structure.relation.created': 'Produto associado com sucesso',
       'pages.structure.relation.remove': 'Produto dissociado com sucesso',
-      'pages.structure.remove': 'Are you sure to Product relation?',
-      'pages.structure.relation.children.error': 'Erro ao obter produtos filhos'
+      'pages.structure.remove': 'Você deseja mesmo remover essa relação?',
+      'pages.structure.relation.children.error': 'Erro ao obter produtos filhos',
+      'pages.necessities.header': 'Necessidades',
+      'pages.necessity.header': 'Necessidade',
+      'pages.necessity.button.newNecessity': 'Nova necessidade',
+      'pages.messages.showNecessity.fields.name': 'Nome',
+      'pages.messages.showNecessity.fields.description': 'Descrição',
+      'pages.messages.showNecessity.fields.items.quantity': 'Quantidade',
+      'pages.messages.showNecessity.fields.items.deadLine': 'Prazo',
+      'pages.messages.showNecessity.products.all': 'Produtos',
+      'pages.messages.showNecessity.fields.selected': 'Itens da necessidade',
+      'pages.messages.showNecessity.products.choose': 'Selecione os produtos',
+      'pages.messages.necessityItem.fields.productName': 'Nome do produto',
+      'pages.messages.necessityItem.fields.quantity': 'Quantidade',
+      'pages.messages.necessityItem.fields.deadline': 'Tempo maximo',
+      'pages.messages.showNecessity.selectNecessity': 'Selecionar necessidade',
+      'pages.messages.necessityItem.header': 'Dados do item',
+      'pages.messages.necessityItem.inserted': 'Item da necessidade inserido',
+      'pages.messages.necessityItem.removeButton': 'Remover item da necessidade',
+      'pages.messages.necessityItem.removed': 'Item da necessidade removido',
     }
     this.languages.en = {
       'pages.messages.credentials.productInserted': 'Product has been inserted',
@@ -118,6 +140,10 @@ export default class {
       'pages.sidebar.category.principal': 'PRINCIPAL',
       'pages.sidebar.item.dashboard': 'Dashboard',
       'pages.sidebar.category.stock': 'STOCK',
+      'pages.sidebar.category.pcp': 'Production Planning',
+      'pages.sidebar.item.necessity': 'Necessities',
+      'pages.sidebar.item.order': 'Order',
+      'pages.sidebar.item.supply': 'Supply',
       'pages.sidebar.item.productManagement': 'Product Management',
       'pages.sidebar.item.products': 'Products',
       'pages.sidebar.category.configuration': 'CONFIGURATION',
@@ -146,7 +172,11 @@ export default class {
       'pages.structure.treeview.general': 'alterar',
       'pages.structure.relation.created': 'Product has been associated',
       'pages.structure.relation.remove': 'Product has been diassociated',
-      'pages.structure.relation.children.error': 'Erro occured while get childreen'
+      'pages.structure.relation.children.error': 'Erro occured while get childreen',
+      'pages.necessity.header': 'Necessity',
+      'pages.messages.necessityItem.fields.productName': '',
+      'pages.messages.necessityItem.fields.quantity': '',
+      'pages.messages.necessityItem.fields.deadline': ''
     }
 
     vuejs.locales(this.languages)

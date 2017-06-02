@@ -17,6 +17,8 @@ import Language from './language'
 import Vue2Filters from 'vue2-filters'
 import VeeValidateMessagesBR from "vee-validate/dist/locale/pt_BR"
 import VueTheMask from 'vue-the-mask'
+import moment from 'moment'
+import VueMask from 'v-mask'
 
 var config = require('./config')
 var baseUrl = config.frontendAddress
@@ -35,7 +37,12 @@ Vue.filter('count', count)
 Vue.filter('domain', domain)
 Vue.filter('prettyDate', prettyDate)
 Vue.filter('pluralize', pluralize)
-
+Vue.filter('formatDate', (value) => {
+  if (value) {
+    return moment(String(value)).format('MM/DD/YYYY hh:mm')
+  }
+})
+Vue.use(VueMask)
 Vue.use(store)
 Vue.use(Toast)
 Vue.use(VueRouter)

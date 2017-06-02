@@ -10,6 +10,7 @@ import Credentials from './components/Credentials.vue'
 import DashboardView from './components/views/Dashboard.vue'
 import ProductView from './components/views/ProductView.vue'
 import StructureView from './components/views/StructureView.vue'
+import NecessityView from './components/views/NecessityView.vue'
 
 // Routes
 const routes = [
@@ -33,6 +34,10 @@ const routes = [
     }, {
       path: '/products/:productId/structure',
       component: StructureView,
+      name: ''
+    }, {
+      path: '/necessities',
+      component: NecessityView,
       name: ''
     }]
   }, {

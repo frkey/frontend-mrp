@@ -11,6 +11,25 @@ var clearJson = function (v, response) {
   return response;
 }
 
+var frontendNameToBackendName  = (query, translateFn, columns, callback) => {
+  var resObject = ""
+  if (query === undefined || query === null || query === '') {
+    return callback(resObject)
+  }
+
+  var pipes = query.split(',')
+  for (var i = 0; i < pipes.length; i++) {
+    var param = pipes[0].split(':')
+    for (var j = 0; j < columns.length; j++) {
+      if (translateFn(columns[j].name) === param[0]) {
+        resObject += columns[j].key + ':' + param[1]
+      }
+    }
+  }
+  return callback(resObject)
+}
+
 module.exports = {
-  apply
+  apply,
+  frontendNameToBackendName
 }

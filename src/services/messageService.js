@@ -1,5 +1,5 @@
 function successMessage (_self, message) {
-  _self.$toast(message, {
+  _self.$toast('<h4 class="label-lg" >' + message + '</h2>', {
     className: ['et-info', 'alert'],
     horizontalPosition: 'center',
     duration: 3000,
@@ -9,7 +9,7 @@ function successMessage (_self, message) {
 }
 
 function errorMessage (_self, message) {
-  _self.$toast(message, {
+  _self.$toast('<h4 class="label-lg" >' + message + '</h2>', {
     className: ['et-alert', 'alert'],
     horizontalPosition: 'center',
     duration: 3000,
