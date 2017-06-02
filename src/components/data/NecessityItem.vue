@@ -66,6 +66,7 @@ export default {
     }
   },
   data () {
+    var _self = this
     return {
       isProductList: true,
       treeviewData: {},
@@ -86,7 +87,11 @@ export default {
         key: 'quantity'
       }, {
         name: 'pages.messages.necessityItem.fields.deadline',
-        key: 'deadline'
+        key: 'deadline',
+        render (value) {
+          var date = new Date(value)
+          return _self.formatDate(date)
+        }
       }]
     }
   },
@@ -95,6 +100,13 @@ export default {
       this.pagination.current_page = values.page
       this.pagination.perpage = values.perpage
       this.loadnecessityItems(undefined, this.pagination, this.necessityId)
+    },
+    formatDate (date) {
+      var day = date.getDate()
+      var month = date.getMonth()
+      var year = date.getFullYear()
+
+      return day + '/' + month + '/' + year
     },
     onSearch (searchQuery) {
       bodyTransformation.frontendNameToBackendName(searchQuery, this.t, this.columns, (query) => {
@@ -136,6 +148,7 @@ export default {
     },
     removeItem (item) {
       necessityBackend.removeNecessityItem(this.necessityId, item._id, (response) => {
+        this.loadnecessityItems(undefined, this.pagination, this.necessityId)
         messageService.successMessage(this, this.t('pages.messages.necessityItem.removed'))
       }, error => {
         messageService.errorMessage(this, error)

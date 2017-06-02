@@ -10,7 +10,7 @@
         <input v-validate="{ rules: { required: true , numeric:true} }" name="Quantidade"  class="form-control" type="text" v-model="newNecessityItem.quantity">
         <span class="label label-danger" v-show="errors.has('Quantidade')">{{isErrors('Quantidade')}}</span>
         <h5 class="description-header align-left" v-translate>pages.messages.necessityItem.fields.deadline</h5>
-        <input name="deadline"  class="form-control" type="text" v-model="newNecessityItem.deadline" v-mask="'##/##/#### ##:##'"/>
+        <datepicker class="description-header align-left" language="pt-br" v-model="newNecessityItem.deadline"></datepicker>
         <button v-on:click="saveItemData" class="btn btn-primary btn-md pull-right">{{t('pages.products.button.save') }}</button>
         <br>
       </div>
@@ -72,6 +72,7 @@ import showProducts from '../data/ShowProducts'
 import {eventHelper} from '../../services/eventHelper'
 import languageService from '../../services/languageService'
 import necessityBackend from '../../apis/necessityBackend'
+import Datepicker from 'vuejs-datepicker'
 import VueNumeric from 'vue-numeric'
 import Modal from 'modal-vue'
 
@@ -82,7 +83,8 @@ export default {
     showNecessity,
     showProducts,
     necessityItem,
-    VueNumeric
+    VueNumeric,
+    Datepicker
   },
   data () {
     return {

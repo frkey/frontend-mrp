@@ -96,6 +96,16 @@ export default {
     reload () {
       this.loadNecessities(null, this.pagination)
     },
+    removeNecesity (necessity) {
+      var confirmation = window.confirm(this.t('pages.messages.necessity.action.remove'))
+      if (confirmation) {
+        necessityBackend.removeNecesity(necessity._id, () => {
+          messageService.successMessage(this, 'pages.messages.necessity.removed')
+        }, error => {
+          messageService.errorMessage(this, error.message)
+        })
+      }
+    },
     loadNecessities (search, pagination) {
       var _self = this
       var options = {}
@@ -138,6 +148,15 @@ export default {
       class: 'btn-md btn-success', // Button class (background color)
       event (e, row) { // Event handler callback. Gets event instace and selected row
         _self.selectMethodCallback(row.row)
+      }
+    })
+
+    this.actions.push({
+      text: this.t('pages.messages.necessity.removeButton'), // Button label
+      icon: 'fa fa-remove', // Button icon
+      class: 'btn-md btn-danger', // Button class (background color)
+      event (e, row) { // Event handler callback. Gets event instace and selected row
+        _self.removeNecesity(row.row)
       }
     })
 

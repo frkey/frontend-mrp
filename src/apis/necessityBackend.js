@@ -30,8 +30,8 @@ function updateNecessity (necessityId, necessity, successCallback, errorCallback
     .catch(errorCallback)
 }
 
-function removeProduct (product, successCallback, errorCallback) {
-  axios.delete(necessityUrl + '/' + product._id)
+function removeNecesity (necessityId, successCallback, errorCallback) {
+  axios.delete(necessityUrl + '/' + necessityId)
         .then(successCallback)
         .catch(errorCallback)
 }
@@ -61,7 +61,7 @@ function loadNecessityItems (necessityId, options, successCallback, errorCallbac
 export default {
   insertNecessity,
   updateNecessity,
-  removeProduct,
+  removeNecesity,
   loadProduct,
   loadNecessities,
   insertNecessityItem,

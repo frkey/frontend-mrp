@@ -160,11 +160,20 @@ export default {
         this.onSelect(node)
         this.managementCallback = function (_self, body) {
           var __self = _self
-          productBackend.removeChildreen(node.old_parent.data._id, node.node.data._id, (response) => {
-            productBackend.insertChildreen(node.parent.data._id, node.node.data._id, body, (response) => {
-              messageService.successMessage(__self, this.t('pages.structure.relation.created'))
+          var confirmation = true
+          if (node.old_parent.parent !== '#') {
+            confirmation = window.confirm(this.t('pages.structure.alert.anotherTree'))
+          }
+
+          if (confirmation) {
+            productBackend.removeChildreen(node.old_parent.data._id, node.node.data._id, (response) => {
+              productBackend.insertChildreen(node.parent.data._id, node.node.data._id, body, (response) => {
+                messageService.successMessage(__self, this.t('pages.structure.relation.created'))
+              }, __self.errorMessage)
             }, __self.errorMessage)
-          }, __self.errorMessage)
+          } else {
+            this.loadChildren()
+          }
         }
         this.showRelationShipData()
       } else {

@@ -74,6 +74,7 @@
     "vued3tree": "^2.2.0",
     "vuedals": "^1.1.1",
     "vuedraggable": "^2.10.0",
+    "vuejs-datepicker": "^0.7.12",
     "vuejs-paginate": "^0.9.0",
     "vuejs-uib-pagination": "^1.0.1",
     "vuetable": "^1.5.12",
