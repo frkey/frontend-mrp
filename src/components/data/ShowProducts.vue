@@ -223,7 +223,7 @@ export default {
         icon: 'fa fa-share', // Button icon
         class: 'btn-md btn-info', // Button class (background color)
         event (e, row) { // Event handler callback. Gets event instace and selected row
-          _self.$router.push('/products/' + row.row._id + '/structure')
+          window.location = '/products/' + row.row._id + '/structure'
         }
       })
     }

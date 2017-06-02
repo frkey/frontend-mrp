@@ -9,20 +9,23 @@ function loadTree (opts) {
   try {
     $('#js-tree').on('move_node.jstree', function (node, data){
 
+      var newData = {}
+      newData = Object.create(data)
       if(data.parent !== '#')
-        data.parent = $('#js-tree').jstree(true).get_node(data.parent)
+        newData.parent = $('#js-tree').jstree(true).get_node(data.parent)
 
       if(data.old_parent !== '#')
-        data.old_parent = $('#js-tree').jstree(true).get_node(data.old_parent)
+        newData.old_parent = $('#js-tree').jstree(true).get_node(data.old_parent)
 
-        options.nodeChanged(data)
+        options.nodeChanged(newData)
       }).on('select_node.jstree', function (node, data){
         if (data.selected[0] !== undefined) {
-          var data = $('#js-tree').jstree(true).get_node(data.selected[0])
-          if(data.parent && data.parent !== '#')
-            data.parent = $('#js-tree').jstree(true).get_node(data.parent)
-
-          options.onSelect(data)
+          var newData = {}
+          newData = $('#js-tree').jstree(true).get_node(data.selected[0])
+          if(newData.parent && newData.parent !== '#') {
+            newData.parent = $('#js-tree').jstree(true).get_node(newData.parent)
+          }
+          options.onSelect(newData)
         }
       }).on('loaded.jstree', function (e, data){
         saveState()

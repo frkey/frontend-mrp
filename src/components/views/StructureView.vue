@@ -274,14 +274,16 @@ export default {
   },
   mounted () {
     var _self = this
-    rolesService.loadUserRoles(_self)
-    eventHelper.init()
-    eventHelper.on('insertProductInTree', (node) => {
-      _self.newNode = node
-      _self.insertNodeInTree()
+    this.$nextTick(function () {
+      rolesService.loadUserRoles(_self)
+      eventHelper.init()
+      eventHelper.on('insertProductInTree', (node) => {
+        _self.newNode = node
+        _self.insertNodeInTree()
+      })
+      _self.loadChildren()
+      languageService.loadLanguage(this)
     })
-    _self.loadChildren()
-    languageService.loadLanguage(this)
   }
 }
 </script>
