@@ -30,6 +30,7 @@
           console.log(res.data)
           authService.setAccessToken(res.data.access_token)
           authService.setRefreshToken(res.data.refresh_token)
+          authService.setSessionId()
           _self.$router.replace('/')
         }, (error) => {
           if (error) {

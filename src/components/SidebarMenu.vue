@@ -9,30 +9,43 @@
 
     <li class="header">{{ t('pages.sidebar.category.pcp') }}</li>
     <li class="treeview">
-      <a>
-        <i class="icon-code-fork"></i>
-        <router-link to="/necessities"><i class="fa fa-circle-o text-blue"></i>
-          <span class="page" v-translate>pages.sidebar.item.necessity</span>
-        </router-link>
-      </a>
-      <a href="#">
-        <i class="icon-code-fork"></i>
-        <router-link to="/products"><i class="fa fa-circle-o text-blue"></i>
-          <span class="page" v-translate>pages.sidebar.item.order</span>
-        </router-link>
-      </a>
-      <a href="#">
-        <i class="icon-code-fork"></i>
-        <router-link to="/products"><i class="fa fa-circle-o text-blue"></i>
-          <span class="page" v-translate>pages.sidebar.item.supply</span>
-        </router-link>
-      </a>
+        <li>
+          <a>
+            <router-link to="/necessities"><i class="fa fa-circle-o text-blue"></i>
+              <span class="page" v-translate>pages.sidebar.item.necessity</span>
+            </router-link>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <router-link to="/products"><i class="fa fa-circle-o text-blue"></i>
+              <span class="page" v-translate>pages.sidebar.item.order</span>
+            </router-link>
+          </a>
+        </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="icon-code-fork"></i>
+          <i class="fa fa-circle-o text-blue"></i><span class="page" v-translate>pages.sidebar.item.supply</span>
+          <span class="pull-right-container">
+            <i class="fa fa-chevron-down fa-fw pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <router-link to="/materials-explosion"><i class="fa fa-circle-o text-yellow"></i>
+              <span class="page" v-translate>pages.sidebar.item.materialsExplosion</span>
+            </router-link>
+          </li>
+        </ul>
+      </li>
     </li>
 
     <li class="header">{{ t('pages.sidebar.category.stock') }}</li>
     <li class="treeview">
       <a href="#">
         <i class="icon-code-fork"></i>
+        <i class="fa fa-circle-o text-black"></i>
         <span v-translate>pages.sidebar.item.productManagement</span>
         <span class="pull-right-container">
           <i class="fa fa-chevron-down fa-fw pull-right"></i>

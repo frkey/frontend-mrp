@@ -21,7 +21,7 @@ var frontendNameToBackendName  = (query, translateFn, columns, callback) => {
   for (var i = 0; i < pipes.length; i++) {
     var param = pipes[0].split(':')
     for (var j = 0; j < columns.length; j++) {
-      if (translateFn(columns[j].name) === param[0]) {
+      if (translateFn(columns[j].name).toLowerCase() === param[0].toLowerCase()) {
         resObject += columns[j].key + ':' + param[1]
       }
     }

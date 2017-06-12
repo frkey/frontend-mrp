@@ -58,6 +58,14 @@ function loadNecessityItems (necessityId, options, successCallback, errorCallbac
   })
 }
 
+function materialExplosion (necessityId, options, successCallback, errorCallback) {
+  httpTransformation.makeUrl(necessityUrl + '/' + necessityId + '/materials', options, (url) => {
+    axios.get(url)
+      .then(successCallback)
+      .catch(errorCallback)
+  })
+}
+
 export default {
   insertNecessity,
   updateNecessity,
@@ -66,5 +74,6 @@ export default {
   loadNecessities,
   insertNecessityItem,
   removeNecessityItem,
-  loadNecessityItems
+  loadNecessityItems,
+  materialExplosion
 }

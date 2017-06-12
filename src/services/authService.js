@@ -56,6 +56,24 @@ const getLanguage = function () {
   return store.state.auth.language
 }
 
+const setSessionId = function () {
+  store.commit('SET_SESSION_ID', guid())
+}
+
+const getSessionId = function () {
+  return store.state.auth.sessionId
+}
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
 export default {
   setClientId: setClientId,
   getClientId: getClientId,
@@ -72,5 +90,7 @@ export default {
   setUser: setUser,
   getUser: getUser,
   setLanguage: setLanguage,
-  getLanguage: getLanguage
+  getLanguage: getLanguage,
+  setSessionId: setSessionId,
+  getSessionId: getSessionId
 }

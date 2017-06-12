@@ -11,6 +11,12 @@ function makeUrl (url, options, callback) {
     if (options.search) {
       url += '&_search=' + options.search
     }
+    if (options.redirectUri) {
+      url += '&_redirectUri=' + options.redirectUri
+    }
+    if (options.code) {
+      url += '&_code=' + options.code
+    }
   }
 
   callback(url)

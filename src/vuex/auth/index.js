@@ -6,6 +6,7 @@ const SET_REDIRECT_URI = 'SET_REDIRECT_URI'
 const SET_IS_AUTHORIZED = 'SET_IS_AUTHORIZED'
 const SET_USER = 'SET_USER'
 const SET_LANGUAGE = 'SET_LANGUAGE'
+const SET_SESSION_ID = 'SET_SESSION_ID'
 
 const state = {
   client_id: '{clientIdWebpack}',
@@ -15,6 +16,7 @@ const state = {
   redirect_uri: '{redirectUriWebpack}',
   is_authorized: '',
   user: undefined,
+  sessionId: '',
   language: 'pt_BR'
 }
 
@@ -42,6 +44,9 @@ const mutations = {
   },
   [SET_LANGUAGE] (state, language) {
     state.language = language
+  },
+  [SET_SESSION_ID] (state, sessionId) {
+    state.sessionId = sessionId
   }
 }
 

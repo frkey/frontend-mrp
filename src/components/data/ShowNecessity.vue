@@ -49,7 +49,7 @@ import bodyTransformation from '../../utils/bodyTransformation'
 
 export default {
   name: 'Repository',
-  props: ['selectMethodCallback'],
+  props: ['selectButton', 'removeButton', 'explosionButton', 'selectMethodCallback', 'explosionMethodCallback'],
   components: {
     Datasource,
     Treeview,
@@ -88,7 +88,6 @@ export default {
     },
     onSearch (searchQuery) {
       bodyTransformation.frontendNameToBackendName(searchQuery, this.t, this.columns, (query) => {
-        console.log(query)
         this.pagination.current_page = 1
         this.loadNecessities(query, this.pagination)
       })
@@ -142,23 +141,38 @@ export default {
       this.columns[i].name = this.t(this.columns[i].name)
     }
 
-    this.actions.push({
-      text: this.t('pages.messages.showNecessity.selectNecessity'), // Button label
-      icon: 'fa fa-check', // Button icon
-      class: 'btn-md btn-success', // Button class (background color)
-      event (e, row) { // Event handler callback. Gets event instace and selected row
-        _self.selectMethodCallback(row.row)
-      }
-    })
+    if (this.selectButton === undefined || this.selectButton === true) {
+      this.actions.push({
+        text: this.t('pages.messages.showNecessity.selectNecessity'), // Button label
+        icon: 'fa fa-check', // Button icon
+        class: 'btn-md btn-success', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.selectMethodCallback(row.row)
+        }
+      })
+    }
 
-    this.actions.push({
-      text: this.t('pages.messages.necessity.removeButton'), // Button label
-      icon: 'fa fa-remove', // Button icon
-      class: 'btn-md btn-danger', // Button class (background color)
-      event (e, row) { // Event handler callback. Gets event instace and selected row
-        _self.removeNecesity(row.row)
-      }
-    })
+    if (this.removeButton === undefined || this.removeButton === true) {
+      this.actions.push({
+        text: this.t('pages.messages.necessity.removeButton'), // Button label
+        icon: 'fa fa-remove', // Button icon
+        class: 'btn-md btn-danger', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.removeNecesity(row.row)
+        }
+      })
+    }
+
+    if (this.explosionButton === undefined || this.explosionButton === true) {
+      this.actions.push({
+        text: this.t('pages.messages.necessity.explosionButton'), // Button label
+        icon: 'fa fa-sitemap', // Button icon
+        class: 'btn-md btn-success', // Button class (background color)
+        event (e, row) { // Event handler callback. Gets event instace and selected row
+          _self.explosionMethodCallback(row.row)
+        }
+      })
+    }
 
     rolesService.loadUserRoles(this)
     this.loadNecessities(null, this.pagination)

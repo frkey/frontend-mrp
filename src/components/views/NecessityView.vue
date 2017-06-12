@@ -20,7 +20,7 @@
     <section >
 
       <div class="col-sm-12">
-        <showNecessity :selectMethodCallback="selectNecessity"></showNecessity>
+        <showNecessity :selectMethodCallback="selectNecessity" :explosionButton="false"></showNecessity>
         <button type="submit" v-on:click="necessityEdit = true; response={}; showAddItem=false" class=" col-sm-4 btn btn-primary btn-md pull-right" v-if="!necessityEdit"> <i class="fa fa-plus" aria-hidden="true"></i> {{ t('pages.necessity.button.newNecessity') }}</button>
       </div>
 

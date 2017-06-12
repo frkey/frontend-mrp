@@ -11,6 +11,7 @@ import DashboardView from './components/views/Dashboard.vue'
 import ProductView from './components/views/ProductView.vue'
 import StructureView from './components/views/StructureView.vue'
 import NecessityView from './components/views/NecessityView.vue'
+import MaterialExplosionView from './components/views/MaterialExplosionView.vue'
 
 // Routes
 const routes = [
@@ -38,6 +39,10 @@ const routes = [
     }, {
       path: '/necessities',
       component: NecessityView,
+      name: ''
+    }, {
+      path: '/materials-explosion',
+      component: MaterialExplosionView,
       name: ''
     }]
   }, {

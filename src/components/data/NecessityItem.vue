@@ -83,6 +83,9 @@ export default {
       roles: undefined,
       actions: [],
       columns: [{
+        name: 'pages.messages.showNecessity.fields.name',
+        key: 'name'
+      }, {
         name: 'pages.messages.necessityItem.fields.quantity',
         key: 'quantity'
       }, {
@@ -141,6 +144,7 @@ export default {
         _self.pagination.last_page = response.data.pages
         _self.pagination.perpage = response.data.limit
         _self.response = response.data.docs
+        console.log(_self.response)
       }, (error) => {
         console.log(error)
         messageService.errorMessage(_self, error.message)
