@@ -5,6 +5,10 @@
       <div class="col-sm-12">
         <showNecessity :explosionMethodCallback="materialExplosion" :selectButton="false" :removeButton="false"></showNecessity>
       </div>
+      <div class="col-sm-12" v-if="showProductTable">
+        <productData :necessityId="necessityId" :insertTreeButton="false" :previewTreeButton="false" :removeButton="false"
+                     :reloadButton="false" :selectButton="false" :showTreeButton="false"></productData>
+      </div>
       <br>
       </section>
   </div>
@@ -13,9 +17,8 @@
 import rolesService from '../../services/rolesService'
 import showNecessity from '../data/ShowNecessity'
 import necessityItem from '../data/NecessityItem'
-import showProducts from '../data/ShowProducts'
+import productData from '../data/ShowProducts'
 import languageService from '../../services/languageService'
-import necessityBackend from '../../apis/necessityBackend'
 // import authService from '../../services/authService'
 // import messageService from '../../services/messageService'
 import Datepicker from 'vuejs-datepicker'
@@ -27,28 +30,25 @@ export default {
   components: {
     Modal,
     showNecessity,
-    showProducts,
+    productData,
     necessityItem,
     VueNumeric,
     Datepicker
   },
   data () {
     return {
+      necessityId: undefined,
       operation: 'material',
       response: undefined,
       error: {},
-      roles: undefined
+      roles: undefined,
+      showProductTable: false
     }
   },
   methods: {
     materialExplosion (necessity) {
-      var options = {}
-
-      necessityBackend.materialExplosion(necessity._id, options, (response) => {
-        console.log(response)
-      }, (error) => {
-        console.log(error)
-      })
+      this.necessityId = necessity._id
+      this.showProductTable = true
     },
     isErrors (field) {
       var msg = this.errors.first(field)

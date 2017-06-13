@@ -42,6 +42,8 @@ import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
+import necessityBackend from '../../apis/necessityBackend'
+import materialsBackend from '../../apis/materialsBackend'
 import Treeview from '../data/Treeview'
 import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
@@ -54,8 +56,7 @@ export default {
     Treeview,
     VueNumeric
   },
-  props: ['products', 'removeButton', 'reloadButton', 'selectButton',
-    'showTreeButton', 'insertTreeButton', 'previewTreeButton', 'selectMethodCallback'],
+  props: ['products', 'necessityId', 'removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton', 'selectMethodCallback'],
   watch: {
     products: function (val) {
       this.products = val
@@ -93,6 +94,9 @@ export default {
       }, {
         name: 'pages.messages.showProducts.fields.amountInStock',
         key: 'amountInStock'
+      }, {
+        name: 'pages.messages.showProducts.fields.quantityNecessity',
+        key: 'quantity'
       }]
     }
   },
@@ -148,14 +152,28 @@ export default {
         options.search = search
       }
 
-      if (this.products === undefined) {
-        productBackend.loadProducts(options, (response) => {
-          _self.pagination.current_page = pagination.current_page
-          _self.pagination.last_page = response.data.pages
-          _self.pagination.perpage = response.data.limit
-          _self.response = response.data.docs
+      if (this.necessityId !== undefined) {
+        necessityBackend.materialExplosion(this.necessityId, (response) => {
+          materialsBackend.loadMaterials(response.headers.location, options, (response) => {
+            _self.pagination.current_page = response.page
+            _self.pagination.last_page = response.data.pages
+            _self.pagination.perpage = response.data.limit
+            _self.pagination.total = response.data.total
+            _self.response = response.data.docs
+          }, (error) => {
+            console.log(error)
+          })
         }, (error) => {
           console.log(error)
+        })
+      } else if (this.products === undefined) {
+        productBackend.loadProducts(options, (response) => {
+          _self.pagination.current_page = response.page
+          _self.pagination.last_page = response.data.pages
+          _self.pagination.perpage = response.data.limit
+          _self.pagination.total = response.data.total
+          _self.response = response.data.docs
+        }, (error) => {
           messageService.errorMessage(_self, error.message)
         })
       } else {
@@ -236,6 +254,12 @@ export default {
         event (e, row) { // Event handler callback. Gets event instace and selected row
           _self.previewProductTree(row.row)
         }
+      })
+    }
+
+    if (this.products === undefined) {
+      this.columns = this.columns.filter((el) => {
+        return el.key !== 'quantity'
       })
     }
 

@@ -140,9 +140,10 @@ export default {
       }
 
       necessityBackend.loadNecessityItems(id, options, (response) => {
-        _self.pagination.current_page = pagination.current_page
+        _self.pagination.current_page = response.page
         _self.pagination.last_page = response.data.pages
         _self.pagination.perpage = response.data.limit
+        _self.pagination.total = response.data.total
         _self.response = response.data.docs
         console.log(_self.response)
       }, (error) => {

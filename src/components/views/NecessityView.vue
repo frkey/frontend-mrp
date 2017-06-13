@@ -56,6 +56,7 @@
           </div>
           <div v-if="roles && roles['manager.write']">
             <button type="submit" v-on:click="saveData" class="col-sm-2 btn btn-primary btn-md pull-right">{{ t('pages.products.button.save') }}</button>
+            <button type="submit" v-on:click="necessityEdit = false;" class="col-sm-2 btn btn-danger btn-md pull-right">{{ t('pages.products.button.close') }}</button>
           </div>
         </section>
       </div>
