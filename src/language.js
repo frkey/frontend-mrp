@@ -56,6 +56,7 @@ export default class {
       'pages.sidebar.item.supply': 'Suprimentos',
       'pages.sidebar.item.logout': 'Sair',
       'pages.products.header': 'Produtos',
+      'pages.products.productData': 'Dados do produto',
       'pages.products.button.newProduct': ' Novo produto',
       'pages.products.button.close': ' Fechar',
       'pages.products.label.code': 'Código',

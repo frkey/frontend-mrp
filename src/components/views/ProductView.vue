@@ -4,14 +4,15 @@
 
     <section >
 
-      <div class="col-sm-6">
+      <div class="col-sm-12" v-if="!productEdit">
         <productData ref='productData' :insertTreeButton="false" :previewTreeButton="false" :eventName="productData"></productData>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <button type="submit" v-on:click="productEdit = true; response={purchasePrice: 0}" class=" col-sm-4 btn btn-primary btn-md pull-right" v-if="!productEdit"> <i class="fa fa-plus" aria-hidden="true"></i>{{ t('pages.products.button.newProduct') }}</button>
 
         <section class="box box-info" v-if="productEdit">
+          <h1 class="text-center" v-translate>pages.products.productData</h1>
           <div class="box-body">
             <div class="col-sm-12">
               <div class="box-header">

@@ -154,21 +154,23 @@ export default {
 
       if (this.necessityId !== undefined) {
         necessityBackend.materialExplosion(this.necessityId, (response) => {
+          console.log(response.headers)
           materialsBackend.loadMaterials(response.headers.location, options, (response) => {
-            _self.pagination.current_page = response.page
+            _self.pagination.current_page = response.data.page
             _self.pagination.last_page = response.data.pages
             _self.pagination.perpage = response.data.limit
             _self.pagination.total = response.data.total
             _self.response = response.data.docs
           }, (error) => {
-            console.log(error)
+            console.log(error.status)
           })
         }, (error) => {
           console.log(error)
         })
       } else if (this.products === undefined) {
         productBackend.loadProducts(options, (response) => {
-          _self.pagination.current_page = response.page
+          console.log(response.data)
+          _self.pagination.current_page = response.data.page
           _self.pagination.last_page = response.data.pages
           _self.pagination.perpage = response.data.limit
           _self.pagination.total = response.data.total

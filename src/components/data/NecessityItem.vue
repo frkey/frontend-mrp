@@ -84,7 +84,7 @@ export default {
       actions: [],
       columns: [{
         name: 'pages.messages.showNecessity.fields.name',
-        key: 'name'
+        key: 'product.name'
       }, {
         name: 'pages.messages.necessityItem.fields.quantity',
         key: 'quantity'
@@ -140,7 +140,7 @@ export default {
       }
 
       necessityBackend.loadNecessityItems(id, options, (response) => {
-        _self.pagination.current_page = response.page
+        _self.pagination.current_page = response.data.page
         _self.pagination.last_page = response.data.pages
         _self.pagination.perpage = response.data.limit
         _self.pagination.total = response.data.total

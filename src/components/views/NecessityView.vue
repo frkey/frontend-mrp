@@ -160,7 +160,6 @@ export default {
       }
       eventHelper.emit('add_necessity_item', {
         productId: this.newNecessityItem.product._id,
-        productName: this.newNecessityItem.productName,
         quantity: this.newNecessityItem.quantity,
         deadline: date
       })
