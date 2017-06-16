@@ -92,6 +92,7 @@ axios.interceptors.response.use((response) => { // intercept the global error
     return
   }
   if (error.response.status >= 500) {
+    console.log(error.response.message)
     window.location.href = baseUrl + '/error'
     return
   }
