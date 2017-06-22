@@ -1,6 +1,6 @@
 module.exports = {
-  frontendAddress: 'http://192.168.0.11:8082',
-  apiGatewayUri: 'http://192.168.0.19:3000',
+  frontendAddress: 'http://localhost:8082',
+  apiGatewayUri: 'http://localhost:3000',
   fixedLayout: false,
   hideLogoOnMobile: false,
   clientId: '08163127-2a6b-43a3-9722-3ae551fdb0cc',

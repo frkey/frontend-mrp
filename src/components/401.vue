@@ -21,7 +21,7 @@
     name: 'unauthorized',
     methods: {
       openGatewayLogin () {
-        securityBackend.openGatewayLogin(authService.getClientId(), authService.getRedirectURI())
+        securityBackend.openGatewayLogin(authService.getClientId())
       }
     },
     mounted () {

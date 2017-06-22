@@ -39,15 +39,14 @@ function getMe (successCallback, errorCallback) {
     .catch(errorCallback)
 }
 
-function openGatewayLogin (clientId, redirectUri) {
+function openGatewayLogin (clientId) {
   var url = '/oauth/authorise?client_id={client_id}&redirect_uri={redirect_uri}&language={language}'
   if (config.apiGatewayUri === undefined || config.apiGatewayUri === null || config.apiGatewayUri === '' || config.apiGatewayUri === ' ') {
     url = 'http://localhost:3000' + url
   } else {
     url = config.apiGatewayUri + url
   }
-  url = url.replace('{client_id}', clientId).replace('{redirect_uri}', redirectUri).replace('{language}', languageService.getCurrentLanguage())
-  console.log(url)
+  url = url.replace('{client_id}', clientId).replace('{redirect_uri}', config.frontendAddress + '/token').replace('{language}', languageService.getCurrentLanguage())
   window.location.href = url
 }
 
