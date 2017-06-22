@@ -10,7 +10,6 @@ import VeeValidate from 'vee-validate'
 import * as pagination from 'vuejs-uib-pagination'
 import VueResource from 'vue-resource'
 import ToggleButton from 'vue-js-toggle-button'
-import { VudalPlugin } from 'vudal'
 import axios from 'axios'
 import VueTranslate from 'vue-translate-plugin'
 import Language from './language'
@@ -51,7 +50,6 @@ VeeValidate.Validator.addLocale(VeeValidateMessagesBR)
 Vue.use(VeeValidate, {locale: 'pt_BR'})
 Vue.use(pagination)
 Vue.use(ToggleButton)
-Vue.use(VudalPlugin)
 Vue.use(VueTranslate)
 Vue.use(Vue2Filters)
 Vue.use(VueTheMask)

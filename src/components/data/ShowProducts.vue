@@ -47,14 +47,12 @@ import materialsBackend from '../../apis/materialsBackend'
 import Treeview from '../data/Treeview'
 import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
-import VueNumeric from 'vue-numeric'
 
 export default {
   name: 'Repository',
   components: {
     Datasource,
-    Treeview,
-    VueNumeric
+    Treeview
   },
   props: ['products', 'necessityId', 'removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton', 'selectMethodCallback'],
   watch: {

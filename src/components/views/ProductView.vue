@@ -68,8 +68,7 @@
             <div class="col-sm-12">
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.products.label.purchasePrice</h5>
-                <vue-numeric v-validate="{ rules: { required: true, decimal:true } }" name="purchase_price"  class="form-control" type="text" v-model="response.purchasePrice" currency="$" separator=","></vue-numeric>
-                <span class="label label-danger" v-show="errors.has('purchase_price')">{{ isErrors('purchase_price') }}</span>
+                <vue-numeric  name="purchase_price"  class="form-control" type="text" v-model="response.purchasePrice" currency="$" separator=","></vue-numeric>
               </div>
             </div>
             <div class="col-sm-12">
