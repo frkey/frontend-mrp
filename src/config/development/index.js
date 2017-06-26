@@ -1,5 +1,5 @@
 module.exports = {
-  frontendAddress: 'http://192.168.011:8082',
+  frontendAddress: 'http://192.168.11:8082',
   apiGatewayUri: 'http://192.168.0.19:3000',
   fixedLayout: false,
   hideLogoOnMobile: false,
