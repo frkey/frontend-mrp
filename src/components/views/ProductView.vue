@@ -3,9 +3,8 @@
     <h1 class="text-center" v-translate>pages.products.header</h1>
 
     <section >
-
       <div class="col-sm-12" v-if="!productEdit">
-        <productData ref='productData' :insertTreeButton="false" :previewTreeButton="false" :eventName="productData"></productData>
+        <productData ref='productDataComponent' :insertTreeButton="false" :previewTreeButton="false" :eventName="productData"></productData>
       </div>
 
       <div class="col-sm-12">
@@ -85,15 +84,16 @@
         </section>
       </div>
       <br>
-      </section>
+    </section>
   </div>
 </template>
+
 <script>
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import productBackend from '../../apis/productBackend'
 import productData from '../data/ShowProducts'
-import {eventHelper} from '../../services/eventHelper'
+import { eventHelper } from '../../services/eventHelper'
 import languageService from '../../services/languageService'
 import VueNumeric from 'vue-numeric'
 
@@ -103,7 +103,6 @@ export default {
     productData,
     VueNumeric
   },
-  props: ['productData'],
   data () {
     return {
       response: undefined,
@@ -127,7 +126,8 @@ export default {
           var _id = _self.response._id
           delete (_self.response._id)
           productBackend.updateProduct(_id, _self.response, (response) => {
-            this.$refs.productData.reload()
+            _self.productEdit = false
+            eventHelper.emit('reloadProductList')
             messageService.successMessage(_self, _self.t('pages.messages.product.productUpdated'))
           }, (error) => {
             if (error.response.data) {
@@ -138,10 +138,11 @@ export default {
           })
         } else {
           productBackend.insertProduct(_self.response, (response) => {
-            this.$refs.productData.reload()
+            _self.productEdit = false
+            eventHelper.emit('reloadProductList')
             messageService.successMessage(_self, _self.t('pages.messages.product.productInserted'))
           }, (error) => {
-            if (error.response.data) {
+            if (error.response) {
               messageService.errorMessage(_self, error.response.data.message)
             } else {
               messageService.errorMessage(_self, error.message)

@@ -22,21 +22,21 @@
                     <div class="col-sm-12">
                       <div class="box-header">
                         <h5 class="description-header align-left" v-translate>pages.structure.relation.fathersName</h5>
-                        <input v-validate="{ rules: { required: true } }" name="Pai"  class="form-control" type="text" v-model="relationshipData.parent.text">
+                        <input  class="form-control" type="text" v-bind:placeholder="relationshipData.parent.text" disabled>
                         <span class="label label-danger" v-show="errors.has('Pai')">{{ isErrors('Pai') }}</span>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <div class="box-header">
                         <h5 class="description-header align-left" v-translate>pages.structure.relation.sonName</h5>
-                        <input v-validate="{ rules: { required: true } }" name="Filho"  class="form-control" type="text" v-model="relationshipData.node.text">
+                        <input class="form-control" type="text" v-bind:placeholder="relationshipData.node.text" disabled>
                         <span class="label label-danger" v-show="errors.has('Filho')">{{ isErrors('Filho') }}</span>
                       </div>
                     </div>
                     <div class="col-sm-12">
                       <div class="box-header">
                         <h5 class="description-header align-left" v-translate>pages.structure.relation.children.quantity</h5>
-                        <input v-validate="{ rules: { required: true , decimal:true} }" name="Quantidade"  class="form-control" type="text" v-model="relationshipData.quantity">
+                        <input v-validate="{ rules: { required: true , decimal:true, not_in: [0]} }" name="Quantidade"  class="form-control" type="text" v-model="relationshipData.quantity">
                         <span class="label label-danger" v-show="errors.has('Quantidade')">{{ isErrors('Quantidade') }}</span>
                       </div>
                     </div>
@@ -250,9 +250,13 @@ export default {
         }
       }
     },
-    errorMessage () {
+    errorMessage (err) {
       this.loadChildren()
-      messageService.errorMessage(this, this.t('error.general'))
+      if (err.response) {
+        messageService.errorMessage(this, err.response.data.message)
+      } else {
+        messageService.errorMessage(this, this.t('error.general'))
+      }
     },
     isEmpty (obj) {
       if (obj == null) return true

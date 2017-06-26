@@ -35,18 +35,17 @@
 </template>
 
 <script>
-</script>
-<script>
 import Datasource from 'vue-datasource'
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
-import productBackend from '../../apis/productBackend'
+import productionOrderBackend from '../../apis/productionOrderBackend'
 import necessityBackend from '../../apis/necessityBackend'
 import materialsBackend from '../../apis/materialsBackend'
 import Treeview from '../data/Treeview'
 import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
+import formatDateUtil from '../../utils/formatDate'
 
 export default {
   name: 'Repository',
@@ -67,9 +66,9 @@ export default {
       treeviewData: {},
       response: [],
       pagination: {
-        limits: [10, 15, 20],
+        limits: [15, 20],
         total: 25,
-        per_page: 10,
+        per_page: 15,
         last_page: 1,
         current_page: 1,
         from: 1,
@@ -78,20 +77,34 @@ export default {
       roles: undefined,
       actions: [],
       columns: [{
-        name: 'pages.messages.showProducts.fields.code',
+        name: 'pages.messages.showProductionOrders.fields.code',
         key: 'code'
       }, {
-        name: 'pages.messages.showProducts.fields.name',
-        key: 'name'
+        name: 'pages.messages.showProductionOrders.fields.productCode',
+        key: 'productCode'
       }, {
-        name: 'pages.messages.showProducts.fields.family',
-        key: 'family'
-      }, {
-        name: 'pages.messages.showProducts.fields.productType',
-        key: 'productType'
-      }, {
-        name: 'pages.messages.showProducts.fields.quantityNecessity',
+        name: 'pages.messages.showProductionOrders.fields.quantity',
         key: 'quantity'
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.originalDeadline',
+        key: 'originalDeadline',
+        render (value) {
+          var date = new Date(value)
+          return formatDateUtil.formatDate(date)
+        }
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.revisedDeadline',
+        key: 'revisedDeadline',
+        render (value) {
+          var date = new Date(value)
+          return formatDateUtil.formatDate(date)
+        }
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.orderType',
+        key: 'type'
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.orderStatus',
+        key: 'status'
       }]
     }
   },
@@ -116,7 +129,7 @@ export default {
     },
     removeProduct (product) {
       var _self = this
-      productBackend.removeProduct(product, (response) => {
+      productionOrderBackend.removeProduct(product, (response) => {
         _self.reload()
         messageService.successMessage(_self, this.t('pages.messages.product.productRemoved'))
       }, (error) => {
@@ -124,7 +137,7 @@ export default {
       })
     },
     previewProductTree (data) {
-      productBackend.getChildreen(data._id, (response) => {
+      productionOrderBackend.getChildreen(data._id, (response) => {
         this.treeData = response.data
         this.treeviewData = response.data[0]
         this.isProductList = false
@@ -163,7 +176,7 @@ export default {
           console.log(error)
         })
       } else if (this.products === undefined) {
-        productBackend.loadProducts(options, (response) => {
+        productionOrderBackend.loadProductionOrders(options, (response) => {
           console.log(response.data)
           _self.pagination.current_page = response.data.page
           _self.pagination.last_page = response.data.pages
@@ -265,7 +278,7 @@ export default {
     }
 
     eventHelper.init()
-    eventHelper.on('reloadProductList', () => {
+    eventHelper.on('reloadProductionOrderList', () => {
       _self.reload()
     })
     rolesService.loadUserRoles(this)

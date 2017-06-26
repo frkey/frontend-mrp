@@ -46,6 +46,7 @@ import languageService from '../../services/languageService'
 import VueNumeric from 'vue-numeric'
 import necessityBackend from '../../apis/necessityBackend'
 import bodyTransformation from '../../utils/bodyTransformation'
+import formatDateUtil from '../../utils/formatDate'
 
 export default {
   name: 'Repository',
@@ -66,7 +67,6 @@ export default {
     }
   },
   data () {
-    var _self = this
     return {
       isProductList: true,
       treeviewData: {},
@@ -93,7 +93,7 @@ export default {
         key: 'deadline',
         render (value) {
           var date = new Date(value)
-          return _self.formatDate(date)
+          return formatDateUtil.formatDate(date)
         }
       }]
     }
@@ -103,13 +103,6 @@ export default {
       this.pagination.current_page = values.page
       this.pagination.perpage = values.perpage
       this.loadnecessityItems(undefined, this.pagination, this.necessityId)
-    },
-    formatDate (date) {
-      var day = date.getDate()
-      var month = date.getMonth()
-      var year = date.getFullYear()
-
-      return day + '/' + month + '/' + year
     },
     onSearch (searchQuery) {
       bodyTransformation.frontendNameToBackendName(searchQuery, this.t, this.columns, (query) => {

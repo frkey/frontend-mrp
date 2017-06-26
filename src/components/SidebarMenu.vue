@@ -18,7 +18,7 @@
         </li>
         <li>
           <a href="#">
-            <router-link to="/products"><i class="fa fa-circle-o text-blue"></i>
+            <router-link to="/production-orders"><i class="fa fa-circle-o text-blue"></i>
               <span class="page" v-translate>pages.sidebar.item.order</span>
             </router-link>
           </a>
@@ -42,22 +42,10 @@
     </li>
 
     <li class="header">{{ t('pages.sidebar.category.stock') }}</li>
-    <li class="treeview">
-      <a href="#">
-        <i class="icon-code-fork"></i>
-        <i class="fa fa-circle-o text-black"></i>
-        <span v-translate>pages.sidebar.item.productManagement</span>
-        <span class="pull-right-container">
-          <i class="fa fa-chevron-down fa-fw pull-right"></i>
-        </span>
-      </a>
-      <ul class="treeview-menu">
-        <li>
-          <router-link to="/products"><i class="fa fa-circle-o text-red"></i>
-            <span class="page" v-translate>pages.sidebar.item.products</span>
-          </router-link>
-        </li>
-      </ul>
+    <li v-on:click="toggleMenu" class="pageLink">
+      <router-link to="/products"><i class="fa fa-circle-o"></i>
+        <span class="page" v-translate>pages.sidebar.item.products</span>
+      </router-link>
     </li>
 
     <li class="header">{{ t('pages.sidebar.category.configuration') }}</li>

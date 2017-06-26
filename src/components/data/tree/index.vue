@@ -38,6 +38,6 @@ export default {
   }
 }
 </script>
-<style style scoped>
+<style scoped>
 @import "/static/jstree/jstree.css";
 </style>
