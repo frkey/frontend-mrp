@@ -3,6 +3,6 @@ module.exports = {
   apiGatewayUri: 'https://api-umaflex.pgbr.net',
   fixedLayout: false,
   hideLogoOnMobile: false,
-  clientId: '42b49dcc-29ad-4694-bd54-dd1c6e1f44ab',
-  clientSecret: '1868dfdd-371a-439e-a66c-cfe9867404a4'
+  clientId: '1c06578f-a49f-4476-97f4-8860a71bee31',
+  clientSecret: '180accaa-4143-4479-8218-d752ff837b26'
 }
