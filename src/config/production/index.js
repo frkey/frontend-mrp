@@ -1,8 +1,8 @@
 module.exports = {
-  frontendAddress: 'http://192.168.0.37:8082',
-  apiGatewayUri: 'http://192.168.0.37:3000',
+  frontendAddress: 'https://umaflex.pgbr.net',
+  apiGatewayUri: 'https://api-umaflex.pgbr.net',
   fixedLayout: false,
   hideLogoOnMobile: false,
-  clientId: 'fae5bde3-ea4b-417a-aeb1-099825bd91cc',
-  clientSecret: 'ad472ecd-0646-403a-bd32-5362e734d2b6'
+  clientId: '42b49dcc-29ad-4694-bd54-dd1c6e1f44ab',
+  clientSecret: '1868dfdd-371a-439e-a66c-cfe9867404a4'
 }
