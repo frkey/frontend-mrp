@@ -4,7 +4,7 @@
 
     <section >
       <div class="col-sm-12" v-if="!productionOrderEdit">
-        <productionOrderData :insertTreeButton="false" :previewTreeButton="false" eventName="productionOrderData"></productionOrderData>
+        <productionOrderData :buttons="buttons" backendString="productionOrderBackend" :backend="productionOrderBackend"></productionOrderData>
       </div>
 
       <div class="col-sm-12">
@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="row" v-if="roles && roles['manager.write']">
-            <button type="submit" v-on:click="createProduct" class="col-sm-2 btn btn-primary btn-md pull-right">{{ t('pages.products.button.save') }}</button>
+            <button type="submit" v-on:click="createProductionOrder" class="col-sm-2 btn btn-primary btn-md pull-right">{{ t('pages.products.button.save') }}</button>
             <button type="submit" v-on:click="productionOrderEdit = false; response = undefined" class="col-sm-2 btn btn-primary btn-md pull-right" v-if="productionOrderEdit"><i class="fa fa-times" aria-hidden="true"></i> {{ t('pages.products.button.close') }}</button>
           </div>
         </section>
@@ -50,7 +50,6 @@
 <script>
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
-import productionOrderBackend from '../../apis/productionOrderBackend'
 import productionOrderData from '../data/ShowProductionOrders.vue'
 import { eventHelper } from '../../services/eventHelper'
 import languageService from '../../services/languageService'
@@ -74,28 +73,30 @@ export default {
       maxSize: 5,
       pagination: {currentPage: 1},
       roles: undefined,
-      productionOrderEdit: false
+      productionOrderEdit: false,
+      buttons: ['edit', 'remove']
     }
   },
   computed: {
     formattedOriginalDeadline: function () {
       return formatDateUtil.formatDate(this.response.originalDeadline)
+    },
+    formattedRevisedDeadline: function () {
+      return formatDateUtil.formatDate(this.response.revisedDeadline)
     }
   },
   methods: {
-    createProduct () {
+    createProductionOrder () {
       var _self = this
       messageService.verifyFields(_self, () => {
-        delete (_self.response.costValue)
         delete (_self.response.__v)
 
         if (_self.response._id) {
           var _id = _self.response._id
-          delete (_self.response._id)
-          productionOrderBackend.updateProduct(_id, _self.response, (response) => {
+          this.productionOrderBackend.updateProductionOrder(_id, _self.response, (response) => {
             _self.productionOrderEdit = false
-            eventHelper.emit('reloadProductList')
-            messageService.successMessage(_self, _self.t('pages.messages.product.productUpdated'))
+            eventHelper.emit('reloadItemList')
+            messageService.successMessage(_self, _self.t('pages.messages.productionOrder.updated'))
           }, (error) => {
             if (error.response.data) {
               messageService.errorMessage(_self, error.response.data.message)
@@ -104,10 +105,10 @@ export default {
             }
           })
         } else {
-          productionOrderBackend.insertProduct(_self.response, (response) => {
+          this.productionOrderBackend.insertProductionOrder(_self.response, (response) => {
             _self.productionOrderEdit = false
-            eventHelper.emit('reloadProductionOrderList')
-            messageService.successMessage(_self, _self.t('pages.messages.product.productInserted'))
+            eventHelper.emit('reloadItemList')
+            messageService.successMessage(_self, _self.t('pages.messages.productionOrder.inserted'))
           }, (error) => {
             if (error.response) {
               messageService.errorMessage(_self, error.response.data.message)
@@ -133,11 +134,11 @@ export default {
     rolesService.loadUserRoles(_self)
     languageService.loadLanguage(this)
     eventHelper.init()
-    eventHelper.on('productionOrderData', (productionOrderData) => {
+    eventHelper.on('itemDetails', (productionOrderData) => {
       _self.productionOrderEdit = true
-      productionOrderData.purchasePrice = productionOrderData.purchasePrice ? productionOrderData.purchasePrice : 0
       _self.response = productionOrderData
     })
+    this.productionOrderBackend = require('../../apis/productionOrderBackend')
   }
 }
 </script>

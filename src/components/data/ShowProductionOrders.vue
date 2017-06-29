@@ -28,7 +28,6 @@
         <button v-on:click="isProductList = true" class="col-sm-2 btn btn-primary btn-md pull-right">
           <i class='fa fa-arrow-circle-left' aria-hidden='true'></i>Back
         </button>
-        <Treeview :treeData="treeviewData"></Treeview>
       </div>
     </div>
   </section>
@@ -39,10 +38,6 @@ import Datasource from 'vue-datasource'
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
-import productionOrderBackend from '../../apis/productionOrderBackend'
-import necessityBackend from '../../apis/necessityBackend'
-import materialsBackend from '../../apis/materialsBackend'
-import Treeview from '../data/Treeview'
 import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
 import formatDateUtil from '../../utils/formatDate'
@@ -50,14 +45,13 @@ import formatDateUtil from '../../utils/formatDate'
 export default {
   name: 'Repository',
   components: {
-    Datasource,
-    Treeview
+    Datasource
   },
-  props: ['products', 'necessityId', 'removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton', 'selectMethodCallback'],
+  props: ['buttons', 'selectMethodCallback', 'backendString', 'backend'],
   watch: {
     products: function (val) {
       this.products = val
-      this.loadProducts(null, this.pagination)
+      this.loadItems(null, this.pagination)
     }
   },
   data () {
@@ -112,41 +106,31 @@ export default {
     changePage (values) {
       this.pagination.current_page = values.page
       this.pagination.perpage = values.perpage
-      this.loadProducts(null, this.pagination)
+      this.loadItems(null, this.pagination)
     },
     onSearch (searchQuery) {
       this.pagination.current_page = 1
       bodyTransformation.frontendNameToBackendName(searchQuery, this.t, this.columns, (query) => {
         console.log(query)
-        this.loadProducts(query, this.pagination)
+        this.loadItems(query, this.pagination)
       })
     },
     reload () {
-      this.loadProducts(null, this.pagination)
+      this.loadItems(null, this.pagination)
     },
-    selectProduct (product) {
-      eventHelper.emit('productData', product)
+    editItem (item) {
+      eventHelper.emit('itemDetails', item)
     },
-    removeProduct (product) {
+    removeItem (item) {
       var _self = this
-      productionOrderBackend.removeProduct(product, (response) => {
+      this.backend.remove(item, (response) => {
         _self.reload()
         messageService.successMessage(_self, this.t('pages.messages.product.productRemoved'))
       }, (error) => {
         messageService.errorMessage(_self, error)
       })
     },
-    previewProductTree (data) {
-      productionOrderBackend.getChildreen(data._id, (response) => {
-        this.treeData = response.data
-        this.treeviewData = response.data[0]
-        this.isProductList = false
-      }, (error) => {
-        console.log(error)
-        messageService.errorMessage(this, this.t('pages.messages.product.childrenErrorOcurred'))
-      })
-    },
-    loadProducts (search, pagination) {
+    loadItems (search, pagination) {
       var _self = this
       var options = {}
 
@@ -160,112 +144,104 @@ export default {
         options.search = search
       }
 
-      if (this.necessityId !== undefined) {
-        necessityBackend.materialExplosion(this.necessityId, (response) => {
-          console.log(response.headers)
-          materialsBackend.loadMaterials(response.headers.location, options, (response) => {
-            _self.pagination.current_page = response.data.page
-            _self.pagination.last_page = response.data.pages
-            _self.pagination.perpage = response.data.limit
-            _self.pagination.total = response.data.total
-            _self.response = response.data.docs
-          }, (error) => {
-            console.log(error.status)
-          })
-        }, (error) => {
-          console.log(error)
-        })
-      } else if (this.products === undefined) {
-        productionOrderBackend.loadProductionOrders(options, (response) => {
-          console.log(response.data)
-          _self.pagination.current_page = response.data.page
-          _self.pagination.last_page = response.data.pages
-          _self.pagination.perpage = response.data.limit
-          _self.pagination.total = response.data.total
-          _self.response = response.data.docs
-        }, (error) => {
-          messageService.errorMessage(_self, error.message)
-        })
-      } else {
-        _self.response = this.products
-      }
+      console.log(Object.keys(this.backend))
+
+      this.backend.load(options, (response) => {
+        console.log(response.data)
+        _self.pagination.current_page = response.data.page
+        _self.pagination.last_page = response.data.pages
+        _self.pagination.perpage = response.data.limit
+        _self.pagination.total = response.data.total
+        _self.response = response.data.docs
+      }, (error) => {
+        messageService.errorMessage(_self, error.message)
+      })
     }
   },
   mounted () {
+    // this.backend = require(`../../apis/${this.backendString}`)
+
     languageService.loadLanguage(this)
     var _self = this
-    if (this.insertTreeButton === undefined || this.insertTreeButton === true) {
-      this.actions.push({
-        text: this.t('pages.messages.showProducts.insertProduct'), // Button label
-        icon: 'fa fa-plus', // Button icon
-        class: 'btn-success btn-md', // Button class (background color)
-        event (e, row) { // Event handler callback. Gets event instace and selected row
-          eventHelper.emit('insertProductInTree', row.row)
-        }
-      })
-    }
 
-    if (this.selectButton === undefined || this.selectButton === true) {
-      this.actions.push({
-        text: this.t('pages.messages.showProducts.selectProduct'), // Button label
-        icon: 'fa fa-check', // Button icon
-        class: 'btn-md btn-success', // Button class (background color)
-        event (e, row) { // Event handler callback. Gets event instace and selected row
-          if (_self.selectMethodCallback === undefined) {
-            _self.selectProduct(row.row)
-          } else {
-            _self.selectMethodCallback(row.row)
+    this.buttons.forEach(button => {
+      if (button === 'insertTree') {
+        this.actions.push({
+          text: this.t('pages.messages.showProducts.insertProduct'), // Button label
+          icon: 'fa fa-plus', // Button icon
+          class: 'btn-success btn-md', // Button class (background color)
+          event (e, row) { // Event handler callback. Gets event instace and selected row
+            eventHelper.emit('insertProductInTree', row.row)
           }
-        }
-      })
-    }
+        })
+      }
 
-    if (this.reloadButton === undefined || this.reloadButton === true) {
-      this.actions.push({
-        text: this.t('pages.messages.showProducts.reloadProducts'), // Button label
-        icon: 'fa fa-refresh', // Button icon
-        class: 'btn-primary btn-md', // Button class (background color)
-        event (e, row) { // Event handler callback. Gets event instace and selected row
-          _self.reload()
-        }
-      })
-    }
-
-    if (this.removeButton === undefined || this.removeButton === true) {
-      this.actions.push({
-        text: this.t('pages.messages.showProducts.removeProduct'), // Button label
-        icon: 'fa fa-times', // Button icon
-        class: 'btn-md btn-danger', // Button class (background color)
-        event (e, row) { // Event handler callback. Gets event instace and selected row
-          var r = window.confirm(_self.t('pages.messages.showProducts.removeProduct.confirmation'))
-          if (r === true) {
-            _self.removeProduct(row.row)
+      if (button === 'edit') {
+        this.actions.push({
+          text: this.t('pages.messages.showProducts.selectProduct'), // Button label
+          icon: 'fa fa-check', // Button icon
+          class: 'btn-md btn-success', // Button class (background color)
+          event (e, row) { // Event handler callback. Gets event instace and selected row
+            if (_self.selectMethodCallback === undefined) {
+              _self.editItem(row.row)
+            } else {
+              _self.selectMethodCallback(row.row)
+            }
           }
-        }
-      })
-    }
+        })
+      }
 
-    if (this.showTreeButton === undefined || this.showTreeButton === true) {
-      this.actions.push({
-        text: this.t('pages.messages.showProducts.productTree'), // Button label
-        icon: 'fa fa-share', // Button icon
-        class: 'btn-md btn-info', // Button class (background color)
-        event (e, row) { // Event handler callback. Gets event instace and selected row
-          window.location = '/products/' + row.row._id + '/structure'
-        }
-      })
-    }
+      if (button === 'reload') {
+        this.actions.push({
+          text: this.t('pages.messages.showProducts.reloadProducts'), // Button label
+          icon: 'fa fa-refresh', // Button icon
+          class: 'btn-primary btn-md', // Button class (background color)
+          event (e, row) { // Event handler callback. Gets event instace and selected row
+            _self.reload()
+          }
+        })
+      }
 
-    if (this.previewTreeButton === undefined || this.previewTreeButton === true) {
-      this.actions.push({
-        text: this.t('pages.messages.showProducts.previewTree'), // Button label
-        icon: 'fa fa-eye', // Button icon
-        class: 'btn-md btn-warning', // Button class (background color)
-        event (e, row) { // Event handler callback. Gets event instace and selected row
-          _self.previewProductTree(row.row)
-        }
-      })
-    }
+      if (button === 'remove') {
+        this.actions.push({
+          text: this.t('pages.messages.showProducts.removeProduct'), // Button label
+          icon: 'fa fa-times', // Button icon
+          class: 'btn-md btn-danger', // Button class (background color)
+          event (e, row) { // Event handler callback. Gets event instace and selected row
+            var r = window.confirm(_self.t('pages.messages.showProducts.removeProduct.confirmation'))
+            if (r === true) {
+              _self.removeItem(row.row)
+            }
+          }
+        })
+      }
+
+      if (button === 'showTree') {
+        this.actions.push({
+          text: this.t('pages.messages.showProducts.productTree'), // Button label
+          icon: 'fa fa-share', // Button icon
+          class: 'btn-md btn-info', // Button class (background color)
+          event (e, row) { // Event handler callback. Gets event instace and selected row
+            window.location = '/products/' + row.row._id + '/structure'
+          }
+        })
+      }
+
+      if (button === 'previewTree') {
+        this.actions.push({
+          text: this.t('pages.messages.showProducts.previewTree'), // Button label
+          icon: 'fa fa-eye', // Button icon
+          class: 'btn-md btn-warning', // Button class (background color)
+          event (e, row) { // Event handler callback. Gets event instace and selected row
+            _self.previewProductTree(row.row)
+          }
+        })
+      }
+
+      if (button instanceof Object) {
+        this.actions.push(button)
+      }
+    })
 
     if (this.products === undefined) {
       this.columns = this.columns.filter((el) => {
@@ -278,11 +254,11 @@ export default {
     }
 
     eventHelper.init()
-    eventHelper.on('reloadProductionOrderList', () => {
+    eventHelper.on('reloadItemList', () => {
       _self.reload()
     })
     rolesService.loadUserRoles(this)
-    this.loadProducts(null, this.pagination)
+    this.loadItems(null, this.pagination)
   }
 }
 </script>

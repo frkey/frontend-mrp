@@ -121,7 +121,9 @@ export default class {
       'pages.messages.showProductionOrders.fields.originalDeadline': 'Prazo Original',
       'pages.messages.showProductionOrders.fields.revisedDeadline': 'Prazo Reprogramado',
       'pages.messages.showProductionOrders.fields.orderType': 'Tipo',
-      'pages.messages.showProductionOrders.fields.orderStatus': 'Status'
+      'pages.messages.showProductionOrders.fields.orderStatus': 'Status',
+      'pages.messages.productionOrder.updated': 'Ordem de Produção Atualizada',
+      'pages.messages.productionOrder.inserted': 'Ordem de Produção Inserida'
     }
     this.languages.en = {
       'pages.messages.credentials.productInserted': 'Product has been inserted',
