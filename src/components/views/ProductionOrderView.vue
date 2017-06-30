@@ -4,7 +4,7 @@
 
     <section >
       <div class="col-sm-12" v-if="!productionOrderEdit">
-        <productionOrderData :buttons="buttons" backendString="productionOrderBackend" :backend="productionOrderBackend"></productionOrderData>
+        <productionOrderData :buttons="buttons" :backend="productionOrderBackend" :columns="columns"></productionOrderData>
       </div>
 
       <div class="col-sm-12">
@@ -50,7 +50,7 @@
 <script>
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
-import productionOrderData from '../data/ShowProductionOrders.vue'
+import productionOrderData from '../data/BasicOperationsCRUD.vue'
 import { eventHelper } from '../../services/eventHelper'
 import languageService from '../../services/languageService'
 import VueNumeric from 'vue-numeric'
@@ -74,7 +74,37 @@ export default {
       pagination: {currentPage: 1},
       roles: undefined,
       productionOrderEdit: false,
-      buttons: ['edit', 'remove']
+      buttons: ['edit', 'remove'],
+      columns: [{
+        name: 'pages.messages.showProductionOrders.fields.code',
+        key: 'code'
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.productCode',
+        key: 'productCode'
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.quantity',
+        key: 'quantity'
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.originalDeadline',
+        key: 'originalDeadline',
+        render (value) {
+          var date = new Date(value)
+          return formatDateUtil.formatDate(date)
+        }
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.revisedDeadline',
+        key: 'revisedDeadline',
+        render (value) {
+          var date = new Date(value)
+          return formatDateUtil.formatDate(date)
+        }
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.orderType',
+        key: 'type'
+      }, {
+        name: 'pages.messages.showProductionOrders.fields.orderStatus',
+        key: 'status'
+      }]
     }
   },
   computed: {

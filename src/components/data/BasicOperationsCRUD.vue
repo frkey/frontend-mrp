@@ -8,7 +8,7 @@
               language="en"
               :pagination="pagination"
               :table-data="response"
-              :columns="columns"
+              :columns="columnsNames"
               v-on:change="changePage"
               v-on:searching="onSearch"
               :actions="actions"></datasource>
@@ -18,7 +18,7 @@
               language="en"
               :pagination="pagination"
               :table-data="response"
-              :columns="columns"
+              :columns="columnsNames"
               v-on:change="changePage"
               v-on:searching="onSearch"></datasource>
           </div>
@@ -40,14 +40,14 @@ import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
 import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
-import formatDateUtil from '../../utils/formatDate'
+// import formatDateUtil from '../../utils/formatDate'
 
 export default {
   name: 'Repository',
   components: {
     Datasource
   },
-  props: ['buttons', 'selectMethodCallback', 'backendString', 'backend'],
+  props: ['buttons', 'selectMethodCallback', 'backend', 'columns'],
   watch: {
     products: function (val) {
       this.products = val
@@ -69,37 +69,7 @@ export default {
         to: 1
       },
       roles: undefined,
-      actions: [],
-      columns: [{
-        name: 'pages.messages.showProductionOrders.fields.code',
-        key: 'code'
-      }, {
-        name: 'pages.messages.showProductionOrders.fields.productCode',
-        key: 'productCode'
-      }, {
-        name: 'pages.messages.showProductionOrders.fields.quantity',
-        key: 'quantity'
-      }, {
-        name: 'pages.messages.showProductionOrders.fields.originalDeadline',
-        key: 'originalDeadline',
-        render (value) {
-          var date = new Date(value)
-          return formatDateUtil.formatDate(date)
-        }
-      }, {
-        name: 'pages.messages.showProductionOrders.fields.revisedDeadline',
-        key: 'revisedDeadline',
-        render (value) {
-          var date = new Date(value)
-          return formatDateUtil.formatDate(date)
-        }
-      }, {
-        name: 'pages.messages.showProductionOrders.fields.orderType',
-        key: 'type'
-      }, {
-        name: 'pages.messages.showProductionOrders.fields.orderStatus',
-        key: 'status'
-      }]
+      actions: []
     }
   },
   methods: {
@@ -159,8 +129,6 @@ export default {
     }
   },
   mounted () {
-    // this.backend = require(`../../apis/${this.backendString}`)
-
     languageService.loadLanguage(this)
     var _self = this
 
@@ -243,14 +211,10 @@ export default {
       }
     })
 
-    if (this.products === undefined) {
-      this.columns = this.columns.filter((el) => {
-        return el.key !== 'quantity'
-      })
-    }
-
+    this.columnsNames = []
     for (var i = 0; i < this.columns.length; i++) {
-      this.columns[i].name = this.t(this.columns[i].name)
+      this.columnsNames[i] = {}
+      this.columnsNames[i].name = this.t(this.columns[i].name)
     }
 
     eventHelper.init()
