@@ -13,6 +13,7 @@ import StructureView from './components/views/StructureView.vue'
 import NecessityView from './components/views/NecessityView.vue'
 import MaterialExplosionView from './components/views/MaterialExplosionView.vue'
 import ProductionOrderView from './components/views/ProductionOrderView.vue'
+import WarehouseView from './components/views/WarehouseView.vue'
 
 // Routes
 const routes = [
@@ -48,6 +49,10 @@ const routes = [
     }, {
       path: '/production-orders',
       component: ProductionOrderView,
+      name: ''
+    }, {
+      path: '/warehouses',
+      component: WarehouseView,
       name: ''
     }]
   }, {

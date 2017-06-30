@@ -81,7 +81,6 @@ export default {
     onSearch (searchQuery) {
       this.pagination.current_page = 1
       bodyTransformation.frontendNameToBackendName(searchQuery, this.t, this.columns, (query) => {
-        console.log(query)
         this.loadItems(query, this.pagination)
       })
     },
@@ -114,10 +113,7 @@ export default {
         options.search = search
       }
 
-      console.log(Object.keys(this.backend))
-
       this.backend.load(options, (response) => {
-        console.log(response.data)
         _self.pagination.current_page = response.data.page
         _self.pagination.last_page = response.data.pages
         _self.pagination.perpage = response.data.limit
@@ -215,6 +211,7 @@ export default {
     for (var i = 0; i < this.columns.length; i++) {
       this.columnsNames[i] = {}
       this.columnsNames[i].name = this.t(this.columns[i].name)
+      this.columnsNames[i].key = this.columns[i].key
     }
 
     eventHelper.init()
