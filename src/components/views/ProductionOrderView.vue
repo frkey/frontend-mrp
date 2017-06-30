@@ -123,7 +123,7 @@ export default {
 
         if (_self.response._id) {
           var _id = _self.response._id
-          this.productionOrderBackend.updateProductionOrder(_id, _self.response, (response) => {
+          this.productionOrderBackend.update(_id, _self.response, (response) => {
             _self.productionOrderEdit = false
             eventHelper.emit('reloadItemList')
             messageService.successMessage(_self, _self.t('pages.messages.productionOrder.updated'))
@@ -135,7 +135,7 @@ export default {
             }
           })
         } else {
-          this.productionOrderBackend.insertProductionOrder(_self.response, (response) => {
+          this.productionOrderBackend.insert(_self.response, (response) => {
             _self.productionOrderEdit = false
             eventHelper.emit('reloadItemList')
             messageService.successMessage(_self, _self.t('pages.messages.productionOrder.inserted'))

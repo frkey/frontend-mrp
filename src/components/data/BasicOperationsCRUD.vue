@@ -212,6 +212,7 @@ export default {
       this.columnsNames[i] = {}
       this.columnsNames[i].name = this.t(this.columns[i].name)
       this.columnsNames[i].key = this.columns[i].key
+      this.columnsNames[i].render = this.columns[i].render
     }
 
     eventHelper.init()

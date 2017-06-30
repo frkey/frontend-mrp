@@ -5,7 +5,7 @@
     <section v-if="pageControll.isOK">
       <div class="col-sm-12">
         <basic-operation :columns="columns" :backend="warehouseBackend" :selectMethodCallback="selectWarehouse" :buttons="buttons"></basic-operation>
-        <button v-on:click="editWarehouse" type="submit" class=" col-sm-4 btn btn-primary btn-md pull-right" > <i class="fa fa-plus" aria-hidden="true"></i> {{ t('pages.warehouse.button.newWarehouse') }}</button>
+        <button v-show="!pageControll.showWarehouse" v-on:click="editWarehouse" type="submit" class=" col-sm-4 btn btn-primary btn-md pull-right" > <i class="fa fa-plus" aria-hidden="true"></i> {{ t('pages.warehouse.button.newWarehouse') }}</button>
       </div>
 
       <div class="col-sm-12" v-if="pageControll.showWarehouse">
@@ -15,19 +15,34 @@
             <div class="col-sm-12">
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.messages.warehouse.fields.code</h5>
-                <input  v-validate="{ rules: { required: true } }" name='name' class="form-control" type="text"  v-model="response.name">
-                <span class="label label-danger" v-show="errors.has('name')">{{ isErrors('name') }}</span>
+                <input  v-validate="{ rules: { required: true } }" name='code' class="form-control" type="text"  v-model="response.code">
+                <span class="label label-danger" v-show="errors.has('code')">{{ isErrors('code') }}</span>
               </div>
             </div>
 
             <div class="col-sm-12">
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.messages.warehouse.fields.validSince</h5>
-                <input  v-validate="{ rules: { required: true } }" name='name' class="form-control" type="text"  v-model="response.name">
-                <span class="label label-danger" v-show="errors.has('name')">{{ isErrors('name') }}</span>
+                <datepicker v-validate="{ rules: { required: true } }" name='validSince' class="description-header align-left" language="pt-br" v-model="response.validSince"></datepicker>
+
+                <span class="label label-danger" v-show="errors.has('validSince')">{{ isErrors('validSince') }}</span>
               </div>
             </div>
 
+            <!--div class="col-sm-12">
+              <div class="box-header">
+                <h5 class="description-header align-left" v-translate>pages.messages.warehouse.fields.unit</h5>
+                <input  v-validate="{ rules: { required: true } }" name='name' class="form-control" type="text"  v-model="response.validSince">
+                <span class="label label-danger" v-show="errors.has('name')">{{ isErrors('name') }}</span>
+              </div>
+            </div-->
+
+            <div class="col-sm-12">
+              <div class="box-header">
+                  <h5 class="description-header align-left" v-translate>pages.messages.warehouse.fields.blocked</h5>
+                  <switches type-bold="true" class="pull-left" color="blue" v-model="response.BLOCKED" :selected="response.BLOCKED"></switches>
+              </div>
+            </div>
             <div class="col-sm-12">
               <div class="box-header with-border">
                 <h5 class="description-header align-left" v-translate>pages.messages.warehouse.fields.description</h5>
@@ -46,20 +61,23 @@
   </div>
 </template>
 <script>
-// import messageService from '../../services/messageService'
+import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import showNecessity from '../data/ShowNecessity'
 import necessityItem from '../data/NecessityItem'
 import basicOperationsCRUD from '../data/BasicOperationsCRUD'
-// import {eventHelper} from '../../services/eventHelper'
+import {eventHelper} from '../../services/eventHelper'
 import languageService from '../../services/languageService'
 import Datepicker from 'vuejs-datepicker'
 import VueNumeric from 'vue-numeric'
 import Modal from 'modal-vue'
+import formatDateUtil from '../../utils/formatDate'
+import Switches from 'vue-switches'
 
 export default {
   name: 'Repository',
   components: {
+    Switches,
     Modal,
     showNecessity,
     necessityItem,
@@ -80,7 +98,11 @@ export default {
         key: 'code'
       }, {
         name: 'pages.messages.warehouse.fields.validSince',
-        key: 'validSince'
+        key: 'validSince',
+        render (value) {
+          var date = new Date(value)
+          return formatDateUtil.formatDate(date)
+        }
       }, {
         name: 'pages.messages.warehouse.fields.unitId',
         key: 'unitId'
@@ -96,14 +118,39 @@ export default {
   },
   methods: {
     saveData () {
-      this.warehouseBackend.insert(this.response, (result) => {
-        console.log(result)
-      }, (error) => {
-        console.log(error)
+      var _self = this
+      messageService.verifyFields(_self, () => {
+        delete (_self.response.__v)
+        _self.response.unitId = '58825a290eb4d4271a54f188'
+        if (_self.response._id) {
+          var _id = _self.response._id
+          this.warehouseBackend.update(_id, _self.response, (response) => {
+            eventHelper.emit('reloadItemList')
+            messageService.successMessage(_self, _self.t('pages.messages.warehouse.updated'))
+          }, (error) => {
+            if (error.response.data) {
+              messageService.errorMessage(_self, error.response.data.message)
+            } else {
+              messageService.errorMessage(_self, error.message)
+            }
+          })
+        } else {
+          this.warehouseBackend.insert(_self.response, (response) => {
+            eventHelper.emit('reloadItemList')
+            messageService.successMessage(_self, _self.t('pages.messages.warehouse.inserted'))
+          }, (error) => {
+            if (error.response) {
+              messageService.errorMessage(_self, error.response.data.message)
+            } else {
+              messageService.errorMessage(_self, error.message)
+            }
+          })
+        }
+      }, error => {
+        messageService.errorMessage(_self, error)
       })
     },
-    editWarehouse (data) {
-      this.response = data
+    editWarehouse () {
       this.pageControll.showWarehouse = true
     },
     closeWarehouse () {
@@ -113,7 +160,9 @@ export default {
       if (!warehouse) {
         this.editWarehouse({})
       } else {
-        this.editWarehouse(warehouse)
+        warehouse.validSince = new Date(warehouse.validSince)
+        this.response = warehouse
+        this.pageControll.showWarehouse = true
       }
     },
     isErrors (field) {
@@ -135,6 +184,11 @@ export default {
 </script>
 
 <style>
+.pull-left {
+  text-align: left;
+  font-weight: bold;
+}
+
 .box-content {
   min-height: 45px;
 }
