@@ -4,6 +4,15 @@ export default class {
     this.languages = {}
     this.languages.pt_BR = {
       'error.general' : 'Error has ocurred',
+      'pages.messages.basicCRUD.removed': 'Registro removido com sucesso',
+      'pages.messages.basicCRUD.insertTree': 'Adicionar filho',
+      'pages.messages.basicCRUD.select': 'Selecionar',
+      'pages.messages.basicCRUD.reload': 'Recarregar',
+      'pages.messages.basicCRUD.remove': 'Remover',
+      'pages.messages.basicCRUD.showTree': 'Exibir arvore',
+      'pages.messages.basicCRUD.previewTree': 'Pré visualizar arvore',
+      'pages.messages.basicCRUD.remove.confirmation': 'Deseja realmente remover esse registro?',
+      'pages.messages.basicCRUD.removed': 'Registro removido',
       'pages.messages.product.productInserted': 'Produto inserido',
       'pages.messages.product.productUpdated': 'Produto atualizado',
       'pages.messages.credentials.passwordChanged': 'A senha foi alterada com sucesso',

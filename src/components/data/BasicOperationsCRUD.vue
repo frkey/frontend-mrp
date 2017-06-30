@@ -94,7 +94,7 @@ export default {
       var _self = this
       this.backend.remove(item, (response) => {
         _self.reload()
-        messageService.successMessage(_self, this.t('pages.messages.product.productRemoved'))
+        messageService.successMessage(_self, this.t('pages.messages.basicCRUD.removed'))
       }, (error) => {
         messageService.errorMessage(_self, error)
       })
@@ -131,7 +131,7 @@ export default {
     this.buttons.forEach(button => {
       if (button === 'insertTree') {
         this.actions.push({
-          text: this.t('pages.messages.showProducts.insertProduct'), // Button label
+          text: this.t('pages.messages.basicCRUD.insertTree'), // Button label
           icon: 'fa fa-plus', // Button icon
           class: 'btn-success btn-md', // Button class (background color)
           event (e, row) { // Event handler callback. Gets event instace and selected row
@@ -142,7 +142,7 @@ export default {
 
       if (button === 'edit') {
         this.actions.push({
-          text: this.t('pages.messages.showProducts.selectProduct'), // Button label
+          text: this.t('pages.messages.basicCRUD.select'), // Button label
           icon: 'fa fa-check', // Button icon
           class: 'btn-md btn-success', // Button class (background color)
           event (e, row) { // Event handler callback. Gets event instace and selected row
@@ -157,7 +157,7 @@ export default {
 
       if (button === 'reload') {
         this.actions.push({
-          text: this.t('pages.messages.showProducts.reloadProducts'), // Button label
+          text: this.t('pages.messages.basicCRUD.reload'), // Button label
           icon: 'fa fa-refresh', // Button icon
           class: 'btn-primary btn-md', // Button class (background color)
           event (e, row) { // Event handler callback. Gets event instace and selected row
@@ -168,11 +168,11 @@ export default {
 
       if (button === 'remove') {
         this.actions.push({
-          text: this.t('pages.messages.showProducts.removeProduct'), // Button label
+          text: this.t('pages.messages.basicCRUD.remove'), // Button label
           icon: 'fa fa-times', // Button icon
           class: 'btn-md btn-danger', // Button class (background color)
           event (e, row) { // Event handler callback. Gets event instace and selected row
-            var r = window.confirm(_self.t('pages.messages.showProducts.removeProduct.confirmation'))
+            var r = window.confirm(_self.t('pages.messages.basicCRUD.remove.confirmation'))
             if (r === true) {
               _self.removeItem(row.row)
             }
@@ -182,7 +182,7 @@ export default {
 
       if (button === 'showTree') {
         this.actions.push({
-          text: this.t('pages.messages.showProducts.productTree'), // Button label
+          text: this.t('pages.messages.basicCRUD.showTree'), // Button label
           icon: 'fa fa-share', // Button icon
           class: 'btn-md btn-info', // Button class (background color)
           event (e, row) { // Event handler callback. Gets event instace and selected row
@@ -193,7 +193,7 @@ export default {
 
       if (button === 'previewTree') {
         this.actions.push({
-          text: this.t('pages.messages.showProducts.previewTree'), // Button label
+          text: this.t('pages.messages.basicCRUD.previewTree'), // Button label
           icon: 'fa fa-eye', // Button icon
           class: 'btn-md btn-warning', // Button class (background color)
           event (e, row) { // Event handler callback. Gets event instace and selected row
