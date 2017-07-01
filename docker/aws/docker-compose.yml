@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  frontend_umaflex:
+    build: ./../../
+    container_name: "frontend-umaflex"
+    environment:
+      - VIRTUAL_HOST=umaflex.pgbr.net
+      - LETSENCRYPT_HOST=umaflex.pgbr.net
+      - LETSENCRYPT_EMAIL=tiaudit@pgbrasil.net
+    expose:
+      - '8082'
+    networks:
+      - ssl_default
+    restart: always
+
+networks:
+  ssl_default:
+    external: true
