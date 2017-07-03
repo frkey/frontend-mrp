@@ -30,7 +30,7 @@
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.productionOrders.label.productCode</h5>
                 <div class="input-group">
-                  <input type="text" class="search form-control" v-model="modalProduct.code" v-validate="{ rules: { required: true } }" name="Product">
+                  <input type="text" class="search form-control" v-model="modalProduct.code" v-validate="{ rules: { required: true } }" name="productCode">
                   <span class="input-group-btn">
                     <button class="btn btn-flat" v-on:click="pageControl.findProduct = true">
                       <i class="fa fa-search"></i>
@@ -146,27 +146,35 @@ export default {
         name: 'pages.messages.showProductionOrders.fields.originalDeadline',
         key: 'originalDeadline',
         render (value) {
-          var date = new Date(value)
-          return formatDateUtil.formatDate(date)
+          if (value) {
+            var date = new Date(value)
+            return formatDateUtil.formatDate(date)
+          } else {
+            return ''
+          }
         }
       }, {
         name: 'pages.messages.showProductionOrders.fields.revisedDeadline',
         key: 'revisedDeadline',
         render (value) {
-          var date = new Date(value)
-          return formatDateUtil.formatDate(date)
+          if (value) {
+            var date = new Date(value)
+            return formatDateUtil.formatDate(date)
+          } else {
+            return ''
+          }
         }
       }, {
         name: 'pages.messages.showProductionOrders.fields.orderType',
         key: 'type',
         render (value) {
-          return this.t(`enums.productionOrder.type.${value}`)
+          return global.Vue.t(`enums.productionOrder.type.${value}`)
         }
       }, {
         name: 'pages.messages.showProductionOrders.fields.orderStatus',
         key: 'status',
         render (value) {
-          return this.t(`enums.productionOrder.status.${value}`)
+          return global.Vue.t(`enums.productionOrder.status.${value}`)
         }
       }]
     }
@@ -200,7 +208,7 @@ export default {
           })
         } else {
           console.log(JSON.stringify(this.response))
-          /* this.backend.insert(_self.response, (response) => {
+          this.backend.insert(_self.response, (response) => {
             _self.pageControl.edit = false
             eventHelper.emit('reloadItemList')
             messageService.successMessage(_self, _self.t('pages.messages.productionOrder.inserted'))
@@ -210,7 +218,7 @@ export default {
             } else {
               messageService.errorMessage(_self, error.message)
             }
-          }) */
+          })
         }
       }, error => {
         messageService.errorMessage(_self, error)

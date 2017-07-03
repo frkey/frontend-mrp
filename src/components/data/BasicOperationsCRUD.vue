@@ -103,8 +103,6 @@ export default {
       var _self = this
       var options = {}
 
-      console.log(this.backend)
-
       if (pagination.perpage) {
         options.limit = pagination.perpage
       }
@@ -121,6 +119,7 @@ export default {
         _self.pagination.perpage = response.data.limit
         _self.pagination.total = response.data.total
         _self.response = response.data.docs
+        console.log(response.data)
       }, (error) => {
         messageService.errorMessage(_self, error.message)
       })
