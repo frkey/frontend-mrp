@@ -41,6 +41,5 @@ module.exports = {
   loadProductionOrder,
   insert,
   update,
-  remove,
-  teste: 1
+  remove
 }

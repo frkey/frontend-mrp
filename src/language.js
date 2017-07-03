@@ -132,8 +132,11 @@ export default class {
       'pages.products.productionOrderData': 'Dados da Ordem',
       'pages.productionOrders.label.code': 'Código',
       'pages.productionOrders.label.productCode': 'Produto',
+      'pages.productionOrders.label.quantity': 'Quantidade',
       'pages.productionOrders.label.originalDeadline': 'Prazo Original',
       'pages.productionOrders.label.revisedDeadline': 'Prazo Reprogramado',
+      'pages.productionOrders.label.orderType': 'Tipo',
+      'pages.productionOrders.label.orderStatus': 'Status',
       'pages.messages.showProductionOrders.fields.code': 'Código',
       'pages.messages.showProductionOrders.fields.productCode': 'Produto',
       'pages.messages.showProductionOrders.fields.quantity': 'Quantidade',
@@ -142,7 +145,12 @@ export default class {
       'pages.messages.showProductionOrders.fields.orderType': 'Tipo',
       'pages.messages.showProductionOrders.fields.orderStatus': 'Status',
       'pages.messages.productionOrder.updated': 'Ordem de Produção Atualizada',
-      'pages.messages.productionOrder.inserted': 'Ordem de Produção Inserida'
+      'pages.messages.productionOrder.inserted': 'Ordem de Produção Inserida',
+      'enums.productionOrder.type.1': 'Prevista',
+      'enums.productionOrder.type.2': 'Firme',
+      'enums.productionOrder.status.1': 'Aberta',
+      'enums.productionOrder.status.2': 'Encerrada',
+      'enums.productionOrder.status.3': 'Cancelada'
     }
     this.languages.en = {
       'pages.messages.credentials.productInserted': 'Product has been inserted',
