@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const productionOrderUrl = config.apiGatewayUri + '/productionOrders'
 
-function loadProductionOrders (options, successCallback, errorCallback) {
+function load (options, successCallback, errorCallback) {
   httpTransformation.makeUrl(productionOrderUrl, options, (url) => {
     axios.get(url)
       .then(successCallback)
@@ -18,28 +18,28 @@ function loadProductionOrder (productionOrderId, successCallback, errorCallback)
     .catch(errorCallback)
 }
 
-function insertProductionOrder (productionOrder, successCallback, errorCallback) {
+function insert (productionOrder, successCallback, errorCallback) {
   axios.post(productionOrderUrl, productionOrder)
     .then(successCallback)
     .catch(errorCallback)
 }
 
-function updateProductionOrder (productionOrderId, productionOrder, successCallback, errorCallback) {
+function update (productionOrderId, productionOrder, successCallback, errorCallback) {
   axios.put(productionOrderUrl + '/' + productionOrderId, productionOrder)
     .then(successCallback)
     .catch(errorCallback)
 }
 
-function removeProductionOrder (productionOrder, successCallback, errorCallback) {
+function remove (productionOrder, successCallback, errorCallback) {
   axios.delete(productionOrderUrl + '/' + productionOrder._id)
         .then(successCallback)
         .catch(errorCallback)
 }
 
-export default {
-  loadProductionOrders,
+module.exports = {
+  load,
   loadProductionOrder,
-  insertProductionOrder,
-  updateProductionOrder,
-  removeProductionOrder
+  insert,
+  update,
+  remove
 }
