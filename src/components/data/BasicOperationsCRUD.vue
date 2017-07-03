@@ -104,6 +104,8 @@ export default {
       var _self = this
       var options = {}
 
+      console.log(this.backend)
+
       if (pagination.perpage) {
         options.limit = pagination.perpage
       }
@@ -113,8 +115,6 @@ export default {
       if (search) {
         options.search = search
       }
-
-      console.log(Object.keys(this.backend))
 
       this.backend.load(options, (response) => {
         console.log(response.data)
@@ -131,6 +131,8 @@ export default {
   mounted () {
     languageService.loadLanguage(this)
     var _self = this
+
+    console.log(this.backend)
 
     this.buttons.forEach(button => {
       if (button === 'insertTree') {

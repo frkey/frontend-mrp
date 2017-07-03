@@ -45,6 +45,7 @@
     "vue-easy-toast": "^0.2.6",
     "vue-input-tag": "0.0.11",
     "vue-instant": "^1.0.0",
+    "vue-js-modal": "^1.2.2",
     "vue-js-toggle-button": "^1.0.7",
     "vue-loading-spinner": "^1.0.10",
     "vue-masked-input": "^0.5.1",
