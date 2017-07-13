@@ -33,6 +33,7 @@
     "modal-vue": "0.0.3",
     "moment": "^2.12.0",
     "replace-bundle-webpack-plugin": "^1.0.0",
+    "semver": "^5.3.0",
     "sweet-modal-vue": "^1.0.3",
     "tree-component": "^2.7.1",
     "v-mask": "^1.2.0",

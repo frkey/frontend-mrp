@@ -67,7 +67,7 @@
             <div class="col-sm-12">
               <div class="box-header">
                 <h5 class="description-header align-left" v-translate>pages.products.label.purchasePrice</h5>
-                <vue-numeric  name="purchase_price"  class="form-control" type="text" v-model="response.purchasePrice" currency="$" separator=","></vue-numeric>
+                <vue-numeric  name="purchase_price"  class="form-control" type="text" v-model="response.purchasePrice" currency="R$" separator="." precision="2"></vue-numeric>
               </div>
             </div>
             <div class="col-sm-12">
