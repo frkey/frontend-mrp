@@ -120,7 +120,11 @@ export default {
         _self.reload()
         messageService.successMessage(_self, this.t('pages.messages.product.productRemoved'))
       }, (error) => {
-        messageService.errorMessage(_self, error)
+        if (error.response && error.response.data) {
+          messageService.errorMessage(_self, error.response.data.message)
+        } else {
+          messageService.errorMessage(_self, error.message)
+        }
       })
     },
     previewProductTree (data) {
@@ -171,7 +175,11 @@ export default {
           _self.pagination.total = response.data.total
           _self.response = response.data.docs
         }, (error) => {
-          messageService.errorMessage(_self, error.message)
+          if (error.response && error.response.data) {
+            messageService.errorMessage(_self, error.response.data.message)
+          } else {
+            messageService.errorMessage(_self, error.message)
+          }
         })
       } else {
         _self.response = this.products
