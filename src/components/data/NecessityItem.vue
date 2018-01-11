@@ -28,7 +28,6 @@
         <button v-on:click="isProductList = true" class="col-sm-2 btn btn-primary btn-md pull-right">
           <i class='fa fa-arrow-circle-left' aria-hidden='true'></i>Back
         </button>
-        <Treeview :treeData="treeviewData"></Treeview>
       </div>
     </div>
   </section>
@@ -41,7 +40,6 @@ import Datasource from 'vue-datasource'
 import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
-import Treeview from '../data/Treeview'
 import languageService from '../../services/languageService'
 import VueNumeric from 'vue-numeric'
 import necessityBackend from '../../apis/necessityBackend'
@@ -53,7 +51,6 @@ export default {
   props: ['necessityId'],
   components: {
     Datasource,
-    Treeview,
     VueNumeric
   },
   watch: {

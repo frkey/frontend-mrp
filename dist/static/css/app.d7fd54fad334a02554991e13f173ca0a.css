@@ -401,30 +401,6 @@ hr.visible-xs-block {
   margin-left: 2px;
 }
 
-#app[data-v-62e2d116] {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
-}
-.tree[data-v-62e2d116] {
-  height: 600px;
-  width: 100%;
-}
-.graph-root[data-v-62e2d116] {
-  height: 800px;
-  width: 100%;
-}
-.log[data-v-62e2d116]  {
-  height: 500px;
-  overflow-x: auto;
-  overflow-y: auto;
-  overflow: auto;
-  text-align: left;
-}
-
 .img-circle {
   height: 120px;
 }
@@ -911,4 +887,4 @@ hr.visible-xs-block {
       background-color: #d9534f;
 }
 
-/*# sourceMappingURL=app.363b64b528cd4ee80dcd88e6b659a436.css.map*/
+/*# sourceMappingURL=app.d7fd54fad334a02554991e13f173ca0a.css.map*/

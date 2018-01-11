@@ -19,6 +19,18 @@
       </router-link>
     </li>
 
+    <li v-on:click="toggleMenu" class="pageLink">
+      <router-link to="/necessities"><i class="fa fa-circle-o"></i>
+        <span class="page" v-translate>pages.sidebar.item.necessity</span>
+      </router-link>
+    </li>
+
+    <li v-on:click="toggleMenu" class="pageLink">
+      <router-link to="/materials-explosion"><i class="fa fa-circle-o"></i>
+        <span class="page" v-translate>pages.sidebar.item.materialsExplosion</span>
+      </router-link>
+    </li>
+
     <li class="header" v-translate>pages.sidebar.category.configuration</li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/credentials"><i class="fa fa-cog"></i>

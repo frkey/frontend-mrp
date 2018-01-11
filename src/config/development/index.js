@@ -1,8 +1,8 @@
 module.exports = {
-  frontendAddress: 'http://192.168.0.11:8082',
-  apiGatewayUri: 'http://192.168.0.19:3000',
+  frontendAddress: 'http://localhost:8082',
+  apiGatewayUri: 'http://localhost:3000',
   fixedLayout: false,
   hideLogoOnMobile: false,
-  clientId: '08163127-2a6b-43a3-9722-3ae551fdb0cc',
-  clientSecret: '88862de0-69de-46c6-831b-c8229dd64dae'
+  clientId: '20a1274c-cacc-48cb-826d-c11c19d4ad81',
+  clientSecret: 'a5439288-b323-4e29-8268-61843f2666d1'
 }
