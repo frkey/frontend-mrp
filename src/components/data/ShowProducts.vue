@@ -28,7 +28,6 @@
         <button v-on:click="isProductList = true" class="col-sm-2 btn btn-primary btn-md pull-right">
           <i class='fa fa-arrow-circle-left' aria-hidden='true'></i>Back
         </button>
-        <Treeview :treeData="treeviewData"></Treeview>
       </div>
     </div>
   </section>
@@ -44,15 +43,13 @@ import {eventHelper} from '../../services/eventHelper'
 import productBackend from '../../apis/productBackend'
 import necessityBackend from '../../apis/necessityBackend'
 import materialsBackend from '../../apis/materialsBackend'
-import Treeview from '../data/Treeview'
 import bodyTransformation from '../../utils/bodyTransformation'
 import languageService from '../../services/languageService'
 
 export default {
   name: 'Repository',
   components: {
-    Datasource,
-    Treeview
+    Datasource
   },
   props: ['products', 'necessityId', 'removeButton', 'reloadButton', 'selectButton', 'showTreeButton', 'insertTreeButton', 'previewTreeButton', 'selectMethodCallback'],
   watch: {
@@ -156,6 +153,10 @@ export default {
             _self.pagination.perpage = response.data.limit
             _self.pagination.total = response.data.total
             _self.response = response.data.docs
+            _self.response.forEach(elem => {
+              elem.qtd = elem.quantity
+            })
+            console.log(_self.response)
           }, (error) => {
             console.log(error.status)
           })
@@ -254,7 +255,7 @@ export default {
       })
     }
 
-    if (this.products === undefined) {
+    if (this.products === undefined && this.necessityId === undefined) {
       this.columns = this.columns.filter((el) => {
         return el.key !== 'quantity'
       })

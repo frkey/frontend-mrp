@@ -167,6 +167,7 @@ export default class {
       'pages.messages.showProducts.fields.family': 'Family',
       'pages.messages.showProducts.fields.productType': 'Product type',
       'pages.messages.showProducts.fields.amountInStock': 'Amount in stock',
+      'pages.messages.showProducts.fields.quantityNecessity': 'Quantity',
       'pages.messages.product.productRemoved': 'Product has removed',
       'pages.messages.product.childrenErrorOcurred': 'Erro occured while get childreen',
       'pages.messages.showProducts.previewTree': 'Preview tree',

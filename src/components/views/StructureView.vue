@@ -67,19 +67,6 @@
         </div>
       </div>
     </div>
-    <div class='row'>
-      <div class='col-sm-12' >
-        <div class='panel panel-info'>
-          <div class='panel-heading' v-translate>pages.structure.treeview.general</div>
-            <div class='panel-body'>
-              <div>
-                <Treeview :treeData="treeviewData"></Treeview>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 </template>
 <script>
@@ -88,7 +75,6 @@ import rolesService from '../../services/rolesService'
 import productBackend from '../../apis/productBackend'
 import tree from '../data/tree'
 import productData from '../data/ShowProducts'
-import Treeview from '../data/Treeview'
 import {eventHelper} from '../../services/eventHelper'
 import languageService from '../../services/languageService'
 import Modal from 'modal-vue'
@@ -100,7 +86,6 @@ export default {
     tree,
     productData,
     eventHelper,
-    Treeview,
     Modal
   },
   directives: {
