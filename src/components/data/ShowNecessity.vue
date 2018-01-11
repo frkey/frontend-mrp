@@ -28,7 +28,6 @@
         <button v-on:click="isProductList = true" class="col-sm-2 btn btn-primary btn-md pull-right">
           <i class='fa fa-arrow-circle-left' aria-hidden='true'></i>Back
         </button>
-        <Treeview :treeData="treeviewData"></Treeview>
       </div>
     </div>
   </section>
@@ -42,7 +41,6 @@ import messageService from '../../services/messageService'
 import rolesService from '../../services/rolesService'
 import {eventHelper} from '../../services/eventHelper'
 import necessityBackend from '../../apis/necessityBackend'
-import Treeview from '../data/Treeview'
 import languageService from '../../services/languageService'
 import VueNumeric from 'vue-numeric'
 import bodyTransformation from '../../utils/bodyTransformation'
@@ -52,7 +50,6 @@ export default {
   props: ['selectButton', 'removeButton', 'explosionButton', 'selectMethodCallback', 'explosionMethodCallback'],
   components: {
     Datasource,
-    Treeview,
     VueNumeric
   },
   data () {

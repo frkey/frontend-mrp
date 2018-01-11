@@ -6,4 +6,3 @@ test/e2e/reports
 selenium-debug.log
 .netlify
 /.project
-src/config/development/
