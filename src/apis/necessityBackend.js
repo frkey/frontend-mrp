@@ -59,7 +59,7 @@ function loadNecessityItems (necessityId, options, successCallback, errorCallbac
 }
 
 function materialExplosion (necessityId, successCallback, errorCallback) {
-    axios.get(necessityUrl + '/' + necessityId + '/materials')
+    axios.post(necessityUrl + '/' + necessityId + '/materials')
       .then(successCallback)
       .catch(errorCallback)
 }

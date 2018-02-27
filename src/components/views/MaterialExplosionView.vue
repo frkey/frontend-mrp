@@ -24,6 +24,8 @@ import languageService from '../../services/languageService'
 import Datepicker from 'vuejs-datepicker'
 import VueNumeric from 'vue-numeric'
 import Modal from 'modal-vue'
+import necessityBackend from '../../apis/necessityBackend'
+import materialsBackend from '../../apis/materialsBackend'
 
 export default {
   name: 'Repository',
@@ -47,8 +49,13 @@ export default {
   },
   methods: {
     materialExplosion (necessity) {
-      this.necessityId = necessity._id
-      this.showProductTable = true
+      necessityBackend.materialExplosion(necessity._id, (response) => {
+        materialsBackend.loadMaterials(response.headers.location, undefined, (response) => {
+          console.log('teste')
+        })
+      }, (err) => {
+        console.log(err)
+      })
     },
     isErrors (field) {
       var msg = this.errors.first(field)
